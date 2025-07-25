@@ -37,7 +37,7 @@ function App() {
             <span className="text-white text-4xl">🪷</span>
           </div>
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            선원에 오신 것을 환영합니다
+            선원에 오신 것을 환영합니다 ✨
           </h2>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             전국 불자들이 모여 수행 경험을 나누고, 지혜를 함께 키워가는 평화로운 디지털 법당입니다
