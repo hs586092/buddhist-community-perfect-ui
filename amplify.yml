@@ -1,38 +1,25 @@
-# 🇰🇷 Buddhist Community Korea - Amplify 빌드 설정
-# 한국 시장 특화 + 비용 최적화
+# 🪷 Buddhist Community - Amplify 빌드 설정
+# 한국 불교 커뮤니티 플랫폼
 
 version: 1
-
-# 백엔드 단계
-backend:
-  phases:
-    build:
-      commands:
-        - '# 한국 전용 백엔드 배포'
-        - amplifyPush --simple
 
 # 프론트엔드 단계
 frontend:
   phases:
     preBuild:
       commands:
-        - echo "🇰🇷 Buddhist Community Korea 빌드 시작"
+        - echo "🪷 Buddhist Community 빌드 시작"
         - echo "Node version:"
         - node --version
         - echo "NPM version:"
         - npm --version
-        - '# 한국 전용 환경 설정'
-        - echo "AWS_DEFAULT_REGION=ap-northeast-2" >> .env
-        - echo "VITE_TARGET_COUNTRY=KR" >> .env
-        - echo "VITE_DEFAULT_LANGUAGE=ko" >> .env
-        - echo "VITE_TIMEZONE=Asia/Seoul" >> .env
-        - echo "VITE_CURRENCY=KRW" >> .env
-        - echo "한국 전용 종속성 설치 중..."
+        - echo "DEPLOY_TARGET=amplify" >> .env
+        - echo "의존성 설치 중..."
         - npm ci
     build:
       commands:
-        - echo "🏛️ 한국어 최적화 빌드 시작..."
-        - npm run build:korea
+        - echo "🏛️ 불교 커뮤니티 빌드 시작..."
+        - DEPLOY_TARGET=amplify npm run build
         - echo "빌드 완료, dist 폴더 확인..."
         - ls -la dist/
         - echo "Index.html 내용:"
@@ -44,7 +31,6 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
-      - .next/cache/**/*
 
 # 환경별 설정
 environments:

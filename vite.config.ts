@@ -6,7 +6,8 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: process.env.DEPLOY_TARGET === 'github-pages' ? '/buddhist-community-perfect-ui/' : '/',
+  base: process.env.DEPLOY_TARGET === 'github-pages' ? '/buddhist-community-perfect-ui/' : 
+        process.env.DEPLOY_TARGET === 'amplify' ? '/' : '/',
   plugins: [
     react(),
     tsconfigPaths(), // Enables TypeScript path mapping from tsconfig.json
