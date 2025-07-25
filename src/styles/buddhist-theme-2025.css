@@ -1,0 +1,450 @@
+/**
+ * Buddhist Community 2025 Modern Web Theme
+ * 선(禪) 미니멀리즘 + Figma 직관성을 결합한 불교 커뮤니티 테마
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* 🎨 불교 영감 색상 팔레트 (2025 트렌드) */
+  
+  /* Primary - 연꽃 핑크-보라 그라데이션 */
+  --lotus-pink: #F8BBD9;
+  --lotus-purple: #E879F9;
+  --lotus-violet: #8B5CF6;
+  --lotus-gradient: linear-gradient(135deg, #F8BBD9 0%, #E879F9 50%, #8B5CF6 100%);
+  
+  /* Secondary - 금빛 불상-사프론 */
+  --buddha-gold: #FFD700;
+  --saffron-orange: #FFA500;
+  --saffron-gradient: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  
+  /* Spiritual - 명상 인디고-청록 */
+  --meditation-indigo: #4F46E5;
+  --meditation-teal: #0891B2;
+  --spiritual-gradient: linear-gradient(135deg, #4F46E5 0%, #0891B2 100%);
+  
+  /* Natural - 대나무-옥색 */
+  --bamboo-green: #065F46;
+  --jade-green: #059669;
+  --natural-gradient: linear-gradient(135deg, #065F46 0%, #059669 100%);
+  
+  /* Neutral - 선돌 그레이 */
+  --zen-stone-light: #F3F4F6;
+  --zen-stone-dark: #374151;
+  --neutral-gradient: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+  
+  /* Sacred - 백련 화이트-금색 포인트 */
+  --white-lotus: #FEFEFE;
+  --golden-accent: #F59E0B;
+  --sacred-gradient: linear-gradient(135deg, #FEFEFE 0%, #FEF3C7 100%);
+  
+  /* 🌅 명상적 그라데이션 - 일출/일몰 */
+  --sunrise-gradient: linear-gradient(135deg, #FFE4E1 0%, #FFA07A 25%, #FF6347 50%, #FF4500 75%, #FF69B4 100%);
+  --sunset-gradient: linear-gradient(135deg, #FF69B4 0%, #FF4500 25%, #FF6347 50%, #FFA07A 75%, #FFE4E1 100%);
+  --meditation-gradient: linear-gradient(135deg, #E0E7FF 0%, #C7D2FE 25%, #A5B4FC 50%, #818CF8 75%, #6366F1 100%);
+  
+  /* 🎭 다크/라이트 모드 토글 */
+  --bg-dawn: #FEFEFE;
+  --bg-night: #1F2937;
+  --text-dawn: #374151;
+  --text-night: #F9FAFB;
+  
+  /* 📖 경전 타이포그래피 */
+  --font-serif-kr: 'Noto Serif KR', serif;
+  --font-sans-kr: 'Noto Sans KR', sans-serif;
+  --font-sans-en: 'Inter', sans-serif;
+  
+  /* 🧘‍♂️ 호흡 같은 애니메이션 */
+  --breath-duration: 4s;
+  --breath-ease: cubic-bezier(0.4, 0, 0.6, 1);
+  --lotus-bloom-duration: 2s;
+  --mandala-rotation: 20s;
+  
+  /* 🪷 선 글래스모피즘 */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --glass-backdrop: blur(20px);
+  
+  /* ✨ 연꽃 글로우 효과 */
+  --lotus-glow: 0 0 20px rgba(248, 187, 217, 0.5);
+  --golden-glow: 0 0 30px rgba(255, 215, 0, 0.4);
+  --spiritual-glow: 0 0 25px rgba(79, 70, 229, 0.3);
+  
+  /* 📐 만다라 기하학 */
+  --circle-radius: 50%;
+  --mandala-size: 120px;
+  --sacred-ratio: 1.618; /* 황금비 */
+}
+
+/* 🌙 다크 모드 - 밤 명상 테마 */
+.theme-night {
+  --bg-primary: var(--bg-night);
+  --text-primary: var(--text-night);
+  --glass-bg: rgba(0, 0, 0, 0.3);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --lotus-glow: 0 0 30px rgba(248, 187, 217, 0.3);
+}
+
+/* 🌅 라이트 모드 - 새벽 명상 테마 */
+.theme-dawn {
+  --bg-primary: var(--bg-dawn);
+  --text-primary: var(--text-dawn);
+  --glass-bg: rgba(255, 255, 255, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --lotus-glow: 0 0 20px rgba(248, 187, 217, 0.6);
+}
+
+/* 🎨 기본 스타일링 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans-kr);
+  background: var(--bg-primary, var(--bg-dawn));
+  color: var(--text-primary, var(--text-dawn));
+  transition: all 0.5s var(--breath-ease);
+  overflow-x: hidden;
+}
+
+/* 📖 경전 타이포그래피 클래스 */
+.text-sutra {
+  font-family: var(--font-serif-kr);
+  line-height: 1.8;
+  letter-spacing: -0.02em;
+}
+
+.text-dharma {
+  font-family: var(--font-sans-kr);
+  font-weight: 500;
+}
+
+.text-mantra {
+  font-family: var(--font-sans-en);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* 🪷 선 글래스모피즘 효과 */
+.zen-glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 20px;
+}
+
+.zen-glass-organic {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 30px 20px 35px 15px;
+}
+
+/* 🌸 연꽃 그라데이션 버튼 */
+.lotus-btn {
+  background: var(--lotus-gradient);
+  border: none;
+  border-radius: 50px;
+  padding: 12px 32px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s var(--breath-ease);
+  position: relative;
+  overflow: hidden;
+}
+
+.lotus-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--lotus-glow), 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.lotus-btn:active {
+  transform: translateY(0);
+}
+
+.lotus-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.lotus-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* 🏛️ 사프론 그라데이션 버튼 */
+.saffron-btn {
+  background: var(--saffron-gradient);
+  border: none;
+  border-radius: 50px;
+  padding: 12px 32px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s var(--breath-ease);
+}
+
+.saffron-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--golden-glow), 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* 🧘‍♂️ 호흡 애니메이션 */
+@keyframes breathe {
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 0.8; 
+  }
+  50% { 
+    transform: scale(1.05); 
+    opacity: 1; 
+  }
+}
+
+.breathing {
+  animation: breathe var(--breath-duration) var(--breath-ease) infinite;
+}
+
+/* 🪷 연꽃 펼치기 애니메이션 */
+@keyframes lotus-bloom {
+  0% {
+    transform: scale(0.8) rotate(0deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1) rotate(180deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    opacity: 1;
+  }
+}
+
+.lotus-bloom {
+  animation: lotus-bloom var(--lotus-bloom-duration) var(--breath-ease) forwards;
+}
+
+/* ☸️ 만다라 회전 애니메이션 */
+@keyframes mandala-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.mandala-spin {
+  animation: mandala-rotation var(--mandala-rotation) linear infinite;
+}
+
+/* 🌸 연꽃잎 떠다니기 애니메이션 */
+@keyframes floating-petals {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0px) rotate(360deg);
+    opacity: 0.7;
+  }
+}
+
+.floating-petals {
+  animation: floating-petals 6s var(--breath-ease) infinite;
+}
+
+/* ✨ 글로우 효과 클래스 */
+.lotus-glow {
+  box-shadow: var(--lotus-glow);
+}
+
+.golden-glow {
+  box-shadow: var(--golden-glow);
+}
+
+.spiritual-glow {
+  box-shadow: var(--spiritual-glow);
+}
+
+/* 🎭 인터랙션 상태 */
+.zen-interactive {
+  transition: all 0.3s var(--breath-ease);
+  cursor: pointer;
+}
+
+.zen-interactive:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.zen-interactive:active {
+  transform: translateY(-1px);
+}
+
+/* 📐 만다라 기하학 레이아웃 */
+.mandala-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mandala-circle {
+  width: var(--mandala-size);
+  height: var(--mandala-size);
+  border-radius: var(--circle-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* 🌅 그라데이션 배경 클래스 */
+.bg-sunrise {
+  background: var(--sunrise-gradient);
+}
+
+.bg-sunset {
+  background: var(--sunset-gradient);
+}
+
+.bg-meditation {
+  background: var(--meditation-gradient);
+}
+
+.bg-lotus {
+  background: var(--lotus-gradient);
+}
+
+.bg-saffron {
+  background: var(--saffron-gradient);
+}
+
+.bg-spiritual {
+  background: var(--spiritual-gradient);
+}
+
+.bg-natural {
+  background: var(--natural-gradient);
+}
+
+.bg-sacred {
+  background: var(--sacred-gradient);
+}
+
+/* 📱 반응형 디자인 */
+@media (max-width: 768px) {
+  .mandala-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .zen-glass,
+  .zen-glass-organic {
+    margin: 0 1rem;
+  }
+  
+  .lotus-btn,
+  .saffron-btn {
+    padding: 10px 24px;
+    font-size: 0.9rem;
+  }
+}
+
+/* ♿ 접근성 - reduced-motion 지원 */
+@media (prefers-reduced-motion: reduce) {
+  .breathing,
+  .lotus-bloom,
+  .mandala-spin,
+  .floating-petals {
+    animation: none !important;
+  }
+  
+  .zen-interactive {
+    transition: none !important;
+  }
+}
+
+/* 🎨 추가 유틸리티 클래스 */
+.text-gradient-lotus {
+  background: var(--lotus-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-saffron {
+  background: var(--saffron-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-spiritual {
+  background: var(--spiritual-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 🔔 알림 스타일 */
+.zen-notification {
+  background: var(--zen-glass);
+  backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: var(--glass-shadow);
+}
+
+/* 🌸 로딩 스피너 - 법륜(다르마차크라) */
+.dharma-wheel {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--lotus-pink);
+  border-top: 3px solid var(--lotus-violet);
+  border-radius: 50%;
+  animation: mandala-rotation 1s linear infinite;
+}
+
+/* 🎯 포커스 상태 */
+.zen-focus:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--lotus-pink);
+  border-color: var(--lotus-violet);
+}
+
+/* 🪷 연꽃 파티클 효과를 위한 기본 스타일 */
+.lotus-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--lotus-gradient);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.6;
+}

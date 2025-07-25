@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪷 불교 커뮤니티 - Ultra Minimal</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --dharma-gold: #D4A574;
+            --sangha-blue: #6B9DC2;
+            --zen-white: #FEFEFE;
+            --meditation-gray: #757575;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--zen-white);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 부드러운 전환 */
+        .smooth {
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* 2-tone 색상 시스템 */
+        .dharma-gold { background-color: var(--dharma-gold); }
+        .sangha-blue { background-color: var(--sangha-blue); }
+        .zen-white { background-color: var(--zen-white); }
+        
+        .text-dharma-gold { color: var(--dharma-gold); }
+        .text-sangha-blue { color: var(--sangha-blue); }
+        .text-meditation-gray { color: var(--meditation-gray); }
+
+        /* 호버 효과 */
+        .choice-hover:hover {
+            transform: scale(1.02);
+            filter: brightness(1.05);
+        }
+
+        /* 버튼 애니메이션 */
+        .zen-button {
+            transition: all 0.3s ease;
+        }
+
+        .zen-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        /* 메시지 애니메이션 */
+        @keyframes messageSlideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-enter {
+            animation: messageSlideIn 0.3s ease-out;
+        }
+
+        /* 로터스 회전 */
+        @keyframes lotus-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .lotus-spin {
+            animation: lotus-rotate 20s linear infinite;
+        }
+
+        /* 펄스 애니메이션 */
+        @keyframes gentle-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .gentle-pulse {
+            animation: gentle-pulse 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // 홈 선택 컴포넌트
+        const HomeChoice = ({ onChoiceSelect }) => {
+            const [hoveredChoice, setHoveredChoice] = useState(null);
+
+            return (
+                <div className="min-h-screen bg-white flex flex-col">
+                    {/* 헤더 */}
+                    <header className="text-center py-8">
+                        <div className="text-6xl mb-4 gentle-pulse">🪷</div>
+                        <h1 className="text-2xl font-light text-meditation-gray">불교 커뮤니티</h1>
+                        <p className="text-sm text-gray-500 mt-2">두 가지 길 중 하나를 선택하세요</p>
+                    </header>
+
+                    {/* 메인 2-Choice 영역 */}
+                    <main className="flex-1 flex">
+                        {/* 왼쪽: 법회 리뷰 */}
+                        <div
+                            className={`flex-1 dharma-gold cursor-pointer choice-hover smooth ${
+                                hoveredChoice === 'review' ? 'flex-[1.1]' : 'flex-1'
+                            }`}
+                            onMouseEnter={() => setHoveredChoice('review')}
+                            onMouseLeave={() => setHoveredChoice(null)}
+                            onClick={() => onChoiceSelect('review')}
+                        >
+                            <div className="relative z-10 flex flex-col items-center justify-center h-full text-white p-8">
+                                <div className="text-8xl mb-8">📿</div>
+                                <h2 className="text-4xl font-light mb-4 text-center">법회 리뷰</h2>
+                                <p className="text-xl text-white/90 text-center max-w-xs leading-relaxed">
+                                    사찰별 법회 경험을<br />나누고 기록합니다
+                                </p>
+                                
+                                {hoveredChoice === 'review' && (
+                                    <div className="mt-8 text-center">
+                                        <div className="w-16 h-0.5 bg-white/50 mx-auto mb-4"></div>
+                                        <div className="text-sm text-white/80 space-y-2">
+                                            <div>• 템플스테이 후기</div>
+                                            <div>• 법문 감상</div>
+                                            <div>• 사찰 분위기</div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                                    <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 text-sm font-medium">
+                                        {hoveredChoice === 'review' ? '진입하기 →' : '클릭'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 가운데 구분선 */}
+                        <div className="w-1 bg-gray-200 relative">
+                            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg lotus-spin">
+                                <span className="text-meditation-gray text-sm">🕉️</span>
+                            </div>
+                        </div>
+
+                        {/* 오른쪽: 불자 소통 */}
+                        <div
+                            className={`flex-1 sangha-blue cursor-pointer choice-hover smooth ${
+                                hoveredChoice === 'chat' ? 'flex-[1.1]' : 'flex-1'
+                            }`}
+                            onMouseEnter={() => setHoveredChoice('chat')}
+                            onMouseLeave={() => setHoveredChoice(null)}
+                            onClick={() => onChoiceSelect('chat')}
+                        >
+                            <div className="relative z-10 flex flex-col items-center justify-center h-full text-white p-8">
+                                <div className="text-8xl mb-8">🙏</div>
+                                <h2 className="text-4xl font-light mb-4 text-center">불자 소통</h2>
+                                <p className="text-xl text-white/90 text-center max-w-xs leading-relaxed">
+                                    동참들과 함께<br />마음을 나눕니다
+                                </p>
+                                
+                                {hoveredChoice === 'chat' && (
+                                    <div className="mt-8 text-center">
+                                        <div className="w-16 h-0.5 bg-white/50 mx-auto mb-4"></div>
+                                        <div className="text-sm text-white/80 space-y-2">
+                                            <div>• 수행 고민 상담</div>
+                                            <div>• 일상 나눔</div>
+                                            <div>• 불교 질문답변</div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                                    <div className="bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 text-sm font-medium">
+                                        {hoveredChoice === 'chat' ? '진입하기 →' : '클릭'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+
+                    {/* 하단 안내 */}
+                    <footer className="text-center py-6 text-gray-400">
+                        <div className="text-sm">마음 편하신 곳으로 들어가세요 🕊️</div>
+                    </footer>
+                </div>
+            );
+        };
+
+        // 법회 리뷰 컴포넌트
+        const ReviewSpace = ({ onBack }) => {
+            const [mode, setMode] = useState('read');
+            const [reviews, setReviews] = useState([
+                {
+                    id: '1',
+                    templeName: '조계사',
+                    content: '새벽 예불에 참가했습니다. 도심 속에서도 이렇게 고요한 시간을 가질 수 있다는 것이 감사했어요. 스님의 법문이 마음 깊이 와닿았습니다.',
+                    author: '구름',
+                    date: '2024-01-15',
+                    gratitude: 5
+                },
+                {
+                    id: '2',
+                    templeName: '불국사',
+                    content: '경주 여행 중 들렀는데, 석가탑 앞에서 잠시 명상하는 시간이 참 평화로웠습니다. 천년의 역사가 느껴지는 곳이에요.',
+                    author: '바람',
+                    date: '2024-01-12',
+                    gratitude: 4
+                }
+            ]);
+
+            const [newReview, setNewReview] = useState({
+                templeName: '',
+                content: '',
+                gratitude: 3
+            });
+
+            const handleSubmitReview = () => {
+                if (newReview.templeName.trim() && newReview.content.trim()) {
+                    const review = {
+                        id: Date.now().toString(),
+                        templeName: newReview.templeName,
+                        content: newReview.content,
+                        author: '익명',
+                        date: new Date().toLocaleDateString(),
+                        gratitude: newReview.gratitude
+                    };
+
+                    setReviews(prev => [review, ...prev]);
+                    setNewReview({ templeName: '', content: '', gratitude: 3 });
+                    setMode('read');
+                }
+            };
+
+            const getGratitudeIcon = (level) => {
+                const icons = ['🤍', '🤍', '💛', '🧡', '❤️'];
+                return icons[level - 1] || '🤍';
+            };
+
+            return (
+                <div className="min-h-screen bg-white">
+                    {/* 헤더 */}
+                    <header className="dharma-gold text-white py-6 px-8">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                                <div className="text-3xl gentle-pulse">📿</div>
+                                <div>
+                                    <h1 className="text-2xl font-light">법회 리뷰</h1>
+                                    <p className="text-white/80 text-sm">사찰에서의 소중한 경험을 나누세요</p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={onBack}
+                                className="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-medium hover:bg-white/30 smooth zen-button"
+                            >
+                                ← 홈으로
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* 메인 컨텐츠 */}
+                    <main className="max-w-4xl mx-auto p-8">
+                        {/* 모드 전환 */}
+                        <div className="flex justify-center mb-8">
+                            <div className="bg-gray-100 rounded-full p-1 flex">
+                                <button
+                                    onClick={() => setMode('read')}
+                                    className={`px-6 py-2 rounded-full text-sm font-medium smooth ${
+                                        mode === 'read' 
+                                            ? 'dharma-gold text-white shadow-sm' 
+                                            : 'text-meditation-gray hover:text-gray-800'
+                                    }`}
+                                >
+                                    📖 후기 보기
+                                </button>
+                                <button
+                                    onClick={() => setMode('write')}
+                                    className={`px-6 py-2 rounded-full text-sm font-medium smooth ${
+                                        mode === 'write' 
+                                            ? 'dharma-gold text-white shadow-sm' 
+                                            : 'text-meditation-gray hover:text-gray-800'
+                                    }`}
+                                >
+                                    ✍️ 후기 쓰기
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* 읽기 모드 */}
+                        {mode === 'read' && (
+                            <div className="space-y-6">
+                                {reviews.map((review, index) => (
+                                    <article
+                                        key={review.id}
+                                        className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 zen-button message-enter"
+                                        style={{ animationDelay: `${index * 0.1}s` }}
+                                    >
+                                        <div className="flex items-start justify-between mb-4">
+                                            <div className="flex items-center space-x-3">
+                                                <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                                                    <span className="text-yellow-600 text-xl">🏛️</span>
+                                                </div>
+                                                <div>
+                                                    <h3 className="font-medium text-gray-800">{review.templeName}</h3>
+                                                    <div className="flex items-center space-x-2 text-sm text-meditation-gray">
+                                                        <span>{review.author}</span>
+                                                        <span>•</span>
+                                                        <span>{review.date}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center space-x-1">
+                                                <span className="text-2xl">{getGratitudeIcon(review.gratitude)}</span>
+                                                <span className="text-sm text-meditation-gray">감사</span>
+                                            </div>
+                                        </div>
+                                        <p className="text-gray-700 leading-relaxed">{review.content}</p>
+                                        <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
+                                            <div className="flex items-center space-x-4 text-sm text-meditation-gray">
+                                                <button className="hover:text-yellow-600 smooth">🙏 공감</button>
+                                                <button className="hover:text-yellow-600 smooth">💬 댓글</button>
+                                            </div>
+                                            <div className="text-xs text-gray-400">
+                                                {Math.floor(Math.random() * 20 + 5)}명이 공감했어요
+                                            </div>
+                                        </div>
+                                    </article>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* 쓰기 모드 */}
+                        {mode === 'write' && (
+                            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+                                <div className="text-center mb-8">
+                                    <div className="text-4xl mb-2">✍️</div>
+                                    <h2 className="text-xl font-light text-gray-800">소중한 경험을 나누어주세요</h2>
+                                    <p className="text-sm text-meditation-gray mt-2">사찰에서 느낀 마음을 천천히 적어보세요</p>
+                                </div>
+
+                                <div className="space-y-6">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">🏛️ 사찰명</label>
+                                        <input
+                                            type="text"
+                                            value={newReview.templeName}
+                                            onChange={(e) => setNewReview(prev => ({ ...prev, templeName: e.target.value }))}
+                                            placeholder="어느 사찰을 다녀오셨나요?"
+                                            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400/50 smooth"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">💭 후기 내용</label>
+                                        <textarea
+                                            value={newReview.content}
+                                            onChange={(e) => setNewReview(prev => ({ ...prev, content: e.target.value }))}
+                                            placeholder="사찰에서의 경험, 느낀 점, 감사한 마음을 자유롭게 적어주세요..."
+                                            rows={8}
+                                            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-400/50 smooth resize-none"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            {getGratitudeIcon(newReview.gratitude)} 감사한 마음
+                                        </label>
+                                        <div className="flex items-center space-x-4">
+                                            <input
+                                                type="range"
+                                                min="1"
+                                                max="5"
+                                                value={newReview.gratitude}
+                                                onChange={(e) => setNewReview(prev => ({ ...prev, gratitude: parseInt(e.target.value) }))}
+                                                className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                                            />
+                                            <span className="text-sm text-meditation-gray min-w-[60px]">
+                                                {newReview.gratitude === 1 && '조금'}
+                                                {newReview.gratitude === 2 && '보통'}
+                                                {newReview.gratitude === 3 && '감사'}
+                                                {newReview.gratitude === 4 && '매우 감사'}
+                                                {newReview.gratitude === 5 && '깊이 감사'}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex justify-center pt-4">
+                                        <button
+                                            onClick={handleSubmitReview}
+                                            disabled={!newReview.templeName.trim() || !newReview.content.trim()}
+                                            className={`px-8 py-3 rounded-xl font-medium smooth zen-button ${
+                                                newReview.templeName.trim() && newReview.content.trim()
+                                                    ? 'dharma-gold text-white hover:shadow-xl'
+                                                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                            }`}
+                                        >
+                                            🙏 후기 남기기
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </main>
+                </div>
+            );
+        };
+
+        // 불자 소통 컴포넌트
+        const ChatSpace = ({ onBack }) => {
+            const [messages, setMessages] = useState([
+                {
+                    id: '1',
+                    author: '구름',
+                    content: '안녕하세요. 처음 불교 공부를 시작하려고 하는데, 어떤 책부터 읽으면 좋을까요?',
+                    timestamp: '30분 전',
+                    isMine: false
+                },
+                {
+                    id: '2',
+                    author: '바람',
+                    content: '법정 스님의 "무소유"를 추천드려요. 쉽게 읽히면서도 깊은 깨달음을 주는 책이에요.',
+                    timestamp: '25분 전',
+                    isMine: false
+                },
+                {
+                    id: '3',
+                    author: '이슬',
+                    content: '저도 그 책으로 시작했어요! 현재 순간에 집중하는 법을 배울 수 있었습니다.',
+                    timestamp: '20분 전',
+                    isMine: false
+                }
+            ]);
+
+            const [newMessage, setNewMessage] = useState('');
+            const [myNickname] = useState('나무');
+            const messagesEndRef = useRef(null);
+
+            useEffect(() => {
+                messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+            }, [messages]);
+
+            const handleSendMessage = () => {
+                if (newMessage.trim()) {
+                    const message = {
+                        id: Date.now().toString(),
+                        author: myNickname,
+                        content: newMessage.trim(),
+                        timestamp: '방금 전',
+                        isMine: true
+                    };
+
+                    setMessages(prev => [...prev, message]);
+                    setNewMessage('');
+                }
+            };
+
+            const handleKeyPress = (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                }
+            };
+
+            const getAuthorColor = (author) => {
+                const colors = ['text-blue-600', 'text-green-600', 'text-purple-600', 'text-amber-600', 'text-rose-600'];
+                const index = author.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % colors.length;
+                return colors[index];
+            };
+
+            return (
+                <div className="min-h-screen bg-white flex flex-col">
+                    {/* 헤더 */}
+                    <header className="sangha-blue text-white py-6 px-8 flex-shrink-0">
+                        <div className="max-w-4xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                                <div className="text-3xl gentle-pulse">🙏</div>
+                                <div>
+                                    <h1 className="text-2xl font-light">불자 소통</h1>
+                                    <p className="text-white/80 text-sm">동참들과 함께 마음을 나누는 공간</p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={onBack}
+                                className="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm font-medium hover:bg-white/30 smooth zen-button"
+                            >
+                                ← 홈으로
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* 메시지 영역 */}
+                    <main className="flex-1 overflow-hidden flex flex-col">
+                        <div className="flex-1 overflow-y-auto px-8 py-6">
+                            <div className="max-w-4xl mx-auto space-y-4">
+                                {messages.map((message, index) => (
+                                    <div
+                                        key={message.id}
+                                        className={`flex message-enter ${message.isMine ? 'justify-end' : 'justify-start'}`}
+                                        style={{ animationDelay: `${index * 0.1}s` }}
+                                    >
+                                        <div className="max-w-lg">
+                                            <div className={`flex items-center space-x-2 mb-1 ${
+                                                message.isMine ? 'justify-end' : 'justify-start'
+                                            }`}>
+                                                <span className={`text-sm font-medium ${getAuthorColor(message.author)}`}>
+                                                    {message.author}
+                                                </span>
+                                                <span className="text-xs text-gray-400">{message.timestamp}</span>
+                                            </div>
+                                            <div className={`rounded-2xl px-4 py-3 zen-button ${
+                                                message.isMine
+                                                    ? 'sangha-blue text-white'
+                                                    : 'bg-gray-100 text-gray-800'
+                                            }`}>
+                                                <p className="text-sm leading-relaxed">{message.content}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                                <div ref={messagesEndRef} />
+                            </div>
+                        </div>
+
+                        {/* 입력 영역 */}
+                        <div className="flex-shrink-0 border-t border-gray-200 bg-white/80 backdrop-blur-sm px-8 py-4">
+                            <div className="max-w-4xl mx-auto">
+                                <div className="flex items-center space-x-4">
+                                    <div className="flex items-center space-x-2 flex-shrink-0">
+                                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <span className="text-blue-600 text-sm">🧘‍♀️</span>
+                                        </div>
+                                        <span className="text-sm font-medium text-blue-600">{myNickname}</span>
+                                    </div>
+
+                                    <div className="flex-1 relative">
+                                        <input
+                                            type="text"
+                                            value={newMessage}
+                                            onChange={(e) => setNewMessage(e.target.value)}
+                                            onKeyPress={handleKeyPress}
+                                            placeholder="동참들과 나누고 싶은 마음을 적어보세요..."
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400/50 smooth"
+                                        />
+                                        
+                                        {newMessage.trim() && (
+                                            <button
+                                                onClick={handleSendMessage}
+                                                className="absolute right-2 top-1/2 transform -translate-y-1/2 sangha-blue text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-blue-600 smooth zen-button"
+                                            >
+                                                <span className="text-sm">→</span>
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center justify-center mt-3 text-xs text-gray-400 space-x-4">
+                                    <span>• Enter로 전송</span>
+                                    <span>• 자비로운 마음으로 소통해요</span>
+                                    <span>• 익명으로 대화됩니다</span>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+
+                    {/* 참여 인원 표시 */}
+                    <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg">
+                        <div className="flex items-center space-x-2 text-sm text-meditation-gray">
+                            <div className="flex items-center space-x-1">
+                                <div className="w-2 h-2 bg-green-400 rounded-full gentle-pulse"></div>
+                                <span>{Math.floor(Math.random() * 15 + 8)}명</span>
+                            </div>
+                            <span>참여 중</span>
+                            <span className="text-xs">🕊️</span>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // 네비게이션 컴포넌트
+        const ZenNavigation = ({ currentState, onNavigate }) => {
+            const navItems = [
+                { id: 'home', icon: '🪷', label: '홈', color: '#FEFEFE', hoverColor: '#F0F0F0' },
+                { id: 'review', icon: '📿', label: '법회', color: '#D4A574', hoverColor: '#C69A6B' },
+                { id: 'chat', icon: '🙏', label: '소통', color: '#6B9DC2', hoverColor: '#5B8AB0' }
+            ];
+
+            return (
+                <nav className="fixed top-1/2 right-8 transform -translate-y-1/2 z-50">
+                    <div className="flex flex-col space-y-3">
+                        {navItems.map((item, index) => (
+                            <button
+                                key={item.id}
+                                onClick={() => onNavigate(item.id)}
+                                className={`
+                                    w-14 h-14 rounded-full flex flex-col items-center justify-center
+                                    backdrop-blur-sm border border-white/20 shadow-lg
+                                    text-white text-xs font-medium
+                                    smooth zen-button
+                                    ${currentState === item.id ? 'scale-110 shadow-xl' : ''}
+                                `}
+                                style={{
+                                    backgroundColor: currentState === item.id ? item.color : item.color + '80',
+                                }}
+                            >
+                                <div className={`text-lg mb-0.5 ${currentState === item.id ? 'gentle-pulse' : ''}`}>
+                                    {item.icon}
+                                </div>
+                                <span className="text-[10px] leading-none">{item.label}</span>
+
+                                {currentState === item.id && (
+                                    <div className="absolute -right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white rounded-full"></div>
+                                )}
+                            </button>
+                        ))}
+
+                        <div className="w-8 h-px bg-gray-300 mx-auto my-2"></div>
+
+                        <div className="text-center text-xs text-gray-500 px-2">
+                            <div className="bg-white/80 backdrop-blur-sm rounded-full px-2 py-1">
+                                {currentState === 'home' && '선택'}
+                                {currentState === 'review' && '법회'}
+                                {currentState === 'chat' && '소통'}
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            );
+        };
+
+        // 메인 앱
+        const UltraMinimalBuddhistApp = () => {
+            const [currentView, setCurrentView] = useState('home');
+
+            const renderCurrentView = () => {
+                switch (currentView) {
+                    case 'review':
+                        return <ReviewSpace onBack={() => setCurrentView('home')} />;
+                    case 'chat':
+                        return <ChatSpace onBack={() => setCurrentView('home')} />;
+                    default:
+                        return <HomeChoice onChoiceSelect={setCurrentView} />;
+                }
+            };
+
+            return (
+                <div className="relative">
+                    {renderCurrentView()}
+                    {currentView !== 'home' && (
+                        <ZenNavigation 
+                            currentState={currentView} 
+                            onNavigate={setCurrentView} 
+                        />
+                    )}
+                </div>
+            );
+        };
+
+        // 앱 렌더링
+        ReactDOM.render(<UltraMinimalBuddhistApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>

@@ -1,0 +1,369 @@
+/* Phase 2 Ultra-Minimal Buddhist Community Styles */
+/* 2-tone color system with breathing rhythm interactions */
+
+:root {
+  /* Phase 2 Color System - Ultra Minimal 2-Tone */
+  --dharma-gold: #D4A574;
+  --dharma-gold-hover: #C69A6B;
+  --dharma-gold-light: #E6B885;
+  --dharma-gold-dark: #B8946A;
+
+  --sangha-blue: #6B9DC2;
+  --sangha-blue-hover: #5B8AB0;
+  --sangha-blue-light: #7BADD4;
+  --sangha-blue-dark: #5A8AAF;
+
+  --zen-white: #FEFEFE;
+  --meditation-gray: #757575;
+  --meditation-gray-light: #9E9E9E;
+
+  /* Component Spacing */
+  --spacing-zen: 1.5rem;
+  --spacing-dharma: 2rem;
+  --spacing-sangha: 3rem;
+
+  /* Border Radius */
+  --radius-zen: 1rem;
+  --radius-dharma: 1.5rem;
+  --radius-sangha: 2rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-zen: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-dharma: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-sangha: 0 12px 48px rgba(0, 0, 0, 0.16);
+
+  /* Transitions */
+  --transition-zen: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-dharma: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-sangha: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Noto Sans KR', system-ui, -apple-system, sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--meditation-gray);
+  background: var(--zen-white);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Typography */
+.text-dharma-gold { color: var(--dharma-gold); }
+.text-sangha-blue { color: var(--sangha-blue); }
+.text-meditation-gray { color: var(--meditation-gray); }
+.text-zen-white { color: var(--zen-white); }
+
+/* Background Colors */
+.bg-dharma-gold { background-color: var(--dharma-gold); }
+.bg-sangha-blue { background-color: var(--sangha-blue); }
+.bg-zen-white { background-color: var(--zen-white); }
+.bg-meditation-gray { background-color: var(--meditation-gray); }
+
+/* Gradients */
+.gradient-dharma {
+  background: linear-gradient(135deg, var(--dharma-gold) 0%, var(--dharma-gold-light) 100%);
+}
+
+.gradient-sangha {
+  background: linear-gradient(135deg, var(--sangha-blue) 0%, var(--sangha-blue-light) 100%);
+}
+
+.gradient-dharma-hover {
+  background: linear-gradient(135deg, var(--dharma-gold-hover) 0%, var(--dharma-gold) 100%);
+}
+
+.gradient-sangha-hover {
+  background: linear-gradient(135deg, var(--sangha-blue-hover) 0%, var(--sangha-blue) 100%);
+}
+
+/* Animations */
+@keyframes breathe {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+  50% { 
+    opacity: 0.8; 
+    transform: scale(1.05); 
+  }
+}
+
+@keyframes lotus-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes gentle-pulse {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+  50% { 
+    opacity: 0.8; 
+    transform: scale(1.08); 
+  }
+}
+
+@keyframes slide-up {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Animation Classes */
+.breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+.lotus-spin {
+  animation: lotus-rotate 20s linear infinite;
+}
+
+.gentle-pulse {
+  animation: gentle-pulse 3s ease-in-out infinite;
+}
+
+.slide-up {
+  animation: slide-up 0.6s ease-out;
+}
+
+.fade-in {
+  animation: fade-in 0.4s ease-out;
+}
+
+/* Interactive Elements */
+.zen-button {
+  transition: var(--transition-zen);
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.zen-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-dharma);
+}
+
+.zen-button:active {
+  transform: translateY(0);
+  transition-duration: 0.1s;
+}
+
+.zen-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-sangha);
+  box-shadow: var(--shadow-zen);
+  transition: var(--transition-dharma);
+}
+
+.zen-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-sangha);
+}
+
+/* Form Elements */
+.zen-input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-dharma);
+  font-size: 1rem;
+  color: var(--meditation-gray);
+  transition: var(--transition-zen);
+}
+
+.zen-input:focus {
+  outline: none;
+  border-color: var(--dharma-gold);
+  box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.2);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.zen-textarea {
+  resize: none;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+/* Scroll Bars */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--meditation-gray);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dharma-gold);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  :root {
+    --spacing-zen: 1rem;
+    --spacing-dharma: 1.5rem;
+    --spacing-sangha: 2rem;
+  }
+
+  .zen-card {
+    margin: 1rem;
+    border-radius: var(--radius-dharma);
+  }
+  
+  .zen-input {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --spacing-zen: 0.75rem;
+    --spacing-dharma: 1rem;
+    --spacing-sangha: 1.5rem;
+  }
+  
+  .zen-card {
+    margin: 0.5rem;
+    border-radius: var(--radius-zen);
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --dharma-gold: #B8946A;
+    --sangha-blue: #5A8AAF;
+    --meditation-gray: #424242;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .breathe,
+  .lotus-spin,
+  .gentle-pulse {
+    animation: none;
+  }
+  
+  .zen-button,
+  .zen-card,
+  .zen-input {
+    transition: none;
+  }
+}
+
+/* Dark Mode Support (if needed) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --zen-white: #1a1a1a;
+    --meditation-gray: #e0e0e0;
+    --meditation-gray-light: #b0b0b0;
+  }
+  
+  .zen-card {
+    background: rgba(40, 40, 40, 0.9);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .zen-input {
+    background: rgba(40, 40, 40, 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--meditation-gray);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .zen-button,
+  .zen-card {
+    box-shadow: none;
+    transform: none;
+  }
+  
+  .breathe,
+  .lotus-spin,
+  .gentle-pulse {
+    animation: none;
+  }
+}
+
+/* Focus Indicators for Accessibility */
+.zen-button:focus-visible,
+.zen-input:focus-visible {
+  outline: 2px solid var(--dharma-gold);
+  outline-offset: 2px;
+}
+
+/* Loading States */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid var(--dharma-gold);
+  border-radius: 50%;
+  animation: lotus-rotate 1s linear infinite;
+}
+
+/* Utility Classes */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.backdrop-blur-zen {
+  backdrop-filter: blur(12px);
+}
+
+.backdrop-blur-dharma {
+  backdrop-filter: blur(16px);
+}
+
+.backdrop-blur-sangha {
+  backdrop-filter: blur(20px);
+}

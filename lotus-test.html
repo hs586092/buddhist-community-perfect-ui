@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연꽃 컴포넌트 테스트</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 60px 0;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 24px;
+            color: white;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .nav-demo {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 24px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 네비게이션 데모 -->
+        <div class="nav-demo">
+            <div class="logo">
+                <!-- LotusIcon -->
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round">
+                        <path d="M12 4 C10 5, 9 7, 10 9 C11 10, 13 10, 14 9 C15 7, 14 5, 12 4 Z" />
+                        <path d="M18 14 C17 12, 15 12, 14 13 C13 15, 14 17, 16 17 C17 16, 18 15, 18 14 Z" />
+                        <path d="M6 14 C7 12, 9 12, 10 13 C11 15, 10 17, 8 17 C7 16, 6 15, 6 14 Z" />
+                    </g>
+                    <g stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.8">
+                        <path d="M12 8 C11 8.5, 10.5 10, 11.5 11 C12.5 11.5, 13.5 11, 13.5 10 C13 8.5, 12 8, 12 8 Z" />
+                        <path d="M15.5 13 C14.5 12.5, 13.5 13.5, 14 14.5 C14.5 15.5, 15.5 15.5, 16 14.5 C15.5 13.5, 15.5 13, 15.5 13 Z" />
+                        <path d="M8.5 13 C9.5 12.5, 10.5 13.5, 10 14.5 C9.5 15.5, 8.5 15.5, 8 14.5 C8.5 13.5, 8.5 13, 8.5 13 Z" />
+                    </g>
+                    <circle cx="12" cy="12" r="2" stroke="white" stroke-width="1.5" fill="none" opacity="0.6"/>
+                    <circle cx="12" cy="12" r="0.8" fill="white" opacity="0.4"/>
+                </svg>
+            </div>
+            <span style="font-size: 18px; font-weight: 600; color: #374151;">영성 커뮤니티</span>
+        </div>
+        
+        <!-- Hero 섹션 -->
+        <div class="hero">
+            <div style="width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 20px; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center;">
+                <!-- LotusBloom Animated -->
+                <svg width="48" height="48" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="animate-pulse">
+                    <g stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round">
+                        <path d="M60 20 C50 25, 45 35, 50 45 C55 50, 65 50, 70 45 C75 35, 70 25, 60 20 Z"/>
+                        <path d="M85 35 C80 30, 70 32, 65 40 C65 50, 70 55, 80 52 C88 48, 90 40, 85 35 Z"/>
+                        <path d="M95 60 C90 50, 80 48, 70 55 C65 62, 65 72, 70 75 C80 78, 90 70, 95 60 Z"/>
+                        <path d="M85 85 C75 90, 70 80, 65 75 C65 65, 70 58, 80 62 C88 65, 90 75, 85 85 Z"/>
+                        <path d="M60 100 C50 95, 45 85, 50 75 C55 70, 65 70, 70 75 C75 85, 70 95, 60 100 Z"/>
+                        <path d="M35 85 C30 80, 28 70, 35 65 C45 62, 55 65, 55 75 C52 82, 45 88, 35 85 Z"/>
+                        <path d="M25 60 C20 50, 22 40, 30 38 C40 38, 50 45, 50 55 C48 65, 35 68, 25 60 Z"/>
+                        <path d="M35 35 C30 25, 35 20, 45 25 C52 30, 55 40, 50 45 C42 48, 38 42, 35 35 Z"/>
+                    </g>
+                    <circle cx="60" cy="60" r="8" stroke="white" stroke-width="1.5" fill="none" opacity="0.6"/>
+                    <circle cx="60" cy="60" r="4" stroke="white" stroke-width="1.5" fill="none" opacity="0.4"/>
+                    <circle cx="60" cy="60" r="2" fill="white" opacity="0.3"/>
+                </svg>
+            </div>
+            <h1 style="font-size: 36px; font-weight: bold; margin-bottom: 16px;">영성 커뮤니티에 오신 것을 환영합니다</h1>
+            <p style="font-size: 18px; opacity: 0.9; margin-bottom: 32px;">전국 사찰의 수행 경험을 나누고, 깊은 통찰을 함께 만들어가는 평화로운 공간입니다</p>
+        </div>
+        
+        <!-- 컴포넌트 갤러리 -->
+        <div class="grid">
+            <!-- LotusBloom -->
+            <div class="card">
+                <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 20px;">
+                    <g stroke="#4ade80" stroke-width="1.5" fill="none" stroke-linecap="round">
+                        <path d="M60 20 C50 25, 45 35, 50 45 C55 50, 65 50, 70 45 C75 35, 70 25, 60 20 Z"/>
+                        <path d="M85 35 C80 30, 70 32, 65 40 C65 50, 70 55, 80 52 C88 48, 90 40, 85 35 Z"/>
+                        <path d="M95 60 C90 50, 80 48, 70 55 C65 62, 65 72, 70 75 C80 78, 90 70, 95 60 Z"/>
+                        <path d="M85 85 C75 90, 70 80, 65 75 C65 65, 70 58, 80 62 C88 65, 90 75, 85 85 Z"/>
+                        <path d="M60 100 C50 95, 45 85, 50 75 C55 70, 65 70, 70 75 C75 85, 70 95, 60 100 Z"/>
+                        <path d="M35 85 C30 80, 28 70, 35 65 C45 62, 55 65, 55 75 C52 82, 45 88, 35 85 Z"/>
+                        <path d="M25 60 C20 50, 22 40, 30 38 C40 38, 50 45, 50 55 C48 65, 35 68, 25 60 Z"/>
+                        <path d="M35 35 C30 25, 35 20, 45 25 C52 30, 55 40, 50 45 C42 48, 38 42, 35 35 Z"/>
+                    </g>
+                    <g stroke="#4ade80" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.8">
+                        <path d="M60 35 C55 38, 52 45, 58 50 C64 52, 68 48, 65 42 C62 38, 60 35, 60 35 Z"/>
+                        <path d="M75 42 C72 38, 68 40, 68 45 C68 50, 72 52, 76 50 C78 46, 77 42, 75 42 Z"/>
+                        <path d="M78 60 C75 58, 72 62, 75 66 C78 68, 82 66, 82 62 C80 58, 78 60, 78 60 Z"/>
+                        <path d="M75 78 C72 75, 68 78, 68 82 C70 85, 75 85, 78 82 C78 78, 75 78, 75 78 Z"/>
+                        <path d="M60 85 C55 82, 52 78, 58 75 C64 75, 68 78, 65 82 C62 84, 60 85, 60 85 Z"/>
+                        <path d="M45 78 C42 75, 40 78, 42 82 C45 85, 50 83, 52 80 C50 76, 45 78, 45 78 Z"/>
+                    </g>
+                    <circle cx="60" cy="60" r="8" stroke="#4ade80" stroke-width="1.5" fill="none" opacity="0.6"/>
+                    <circle cx="60" cy="60" r="4" stroke="#4ade80" stroke-width="1.5" fill="none" opacity="0.4"/>
+                    <circle cx="60" cy="60" r="2" fill="#4ade80" opacity="0.3"/>
+                </svg>
+                <h3 style="margin-bottom: 12px; color: #1f2937;">LotusBloom</h3>
+                <p style="color: #6b7280; margin-bottom: 8px;">완전히 핀 연꽃</p>
+                <p style="color: #9ca3af; font-size: 14px;">Hero 섹션, 메인 대시보드용</p>
+            </div>
+            
+            <!-- LotusBud -->
+            <div class="card">
+                <svg width="60" height="80" viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 20px;" class="animate-pulse">
+                    <g stroke="#3b82f6" stroke-width="1.5" fill="none" stroke-linecap="round">
+                        <path d="M30 15 C22 18, 18 25, 20 35 C22 45, 25 50, 30 52 C35 50, 38 45, 40 35 C42 25, 38 18, 30 15 Z"/>
+                        <path d="M30 15 C26 20, 24 28, 26 36 C28 42, 30 45, 30 52"/>
+                        <path d="M30 15 C34 20, 36 28, 34 36 C32 42, 30 45, 30 52"/>
+                        <path d="M22 25 C24 22, 28 24, 30 28" opacity="0.7"/>
+                        <path d="M38 25 C36 22, 32 24, 30 28" opacity="0.7"/>
+                        <path d="M25 48 C27 50, 33 50, 35 48" opacity="0.5"/>
+                        <path d="M30 52 L30 72"/>
+                        <path d="M30 58 C35 56, 38 60, 35 64 C32 66, 30 64, 30 62" opacity="0.6"/>
+                    </g>
+                    <circle cx="30" cy="32" r="1" fill="#3b82f6" opacity="0.3"/>
+                </svg>
+                <h3 style="margin-bottom: 12px; color: #1f2937;">LotusBud</h3>
+                <p style="color: #6b7280; margin-bottom: 8px;">봉오리 상태 연꽃</p>
+                <p style="color: #9ca3af; font-size: 14px;">로딩, 버튼, 로그인 페이지용</p>
+            </div>
+            
+            <!-- LotusLeaf -->
+            <div class="card">
+                <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 20px;">
+                    <g stroke="#059669" stroke-width="1.5" fill="none" stroke-linecap="round">
+                        <path d="M50 15 C35 20, 20 30, 15 45 C12 55, 15 65, 25 75 C35 82, 45 85, 50 85 C55 85, 65 82, 75 75 C85 65, 88 55, 85 45 C80 30, 65 20, 50 15 Z"/>
+                        <path d="M50 15 L50 85" opacity="0.6"/>
+                        <path d="M50 25 C40 35, 30 45, 25 55" opacity="0.4"/>
+                        <path d="M50 25 C60 35, 70 45, 75 55" opacity="0.4"/>
+                        <path d="M50 35 C42 45, 35 55, 30 65" opacity="0.3"/>
+                        <path d="M50 35 C58 45, 65 55, 70 65" opacity="0.3"/>
+                        <path d="M50 85 L50 95"/>
+                    </g>
+                    <circle cx="50" cy="50" r="1.5" fill="#059669" opacity="0.3"/>
+                </svg>
+                <h3 style="margin-bottom: 12px; color: #1f2937;">LotusLeaf</h3>
+                <p style="color: #6b7280; margin-bottom: 8px;">연잎만</p>
+                <p style="color: #9ca3af; font-size: 14px;">배경 패턴, 카드 장식용</p>
+            </div>
+            
+            <!-- LotusIcon -->
+            <div class="card">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 20px;">
+                    <g stroke="#7c3aed" stroke-width="1.5" fill="#7c3aed" stroke-linecap="round">
+                        <path d="M12 4 C10 5, 9 7, 10 9 C11 10, 13 10, 14 9 C15 7, 14 5, 12 4 Z"/>
+                        <path d="M18 14 C17 12, 15 12, 14 13 C13 15, 14 17, 16 17 C17 16, 18 15, 18 14 Z"/>
+                        <path d="M6 14 C7 12, 9 12, 10 13 C11 15, 10 17, 8 17 C7 16, 6 15, 6 14 Z"/>
+                    </g>
+                    <g stroke="#7c3aed" stroke-width="1.5" fill="#7c3aed" stroke-linecap="round" opacity="0.7">
+                        <path d="M12 8 C11 8.5, 10.5 10, 11.5 11 C12.5 11.5, 13.5 11, 13.5 10 C13 8.5, 12 8, 12 8 Z"/>
+                        <path d="M15.5 13 C14.5 12.5, 13.5 13.5, 14 14.5 C14.5 15.5, 15.5 15.5, 16 14.5 C15.5 13.5, 15.5 13, 15.5 13 Z"/>
+                        <path d="M8.5 13 C9.5 12.5, 10.5 13.5, 10 14.5 C9.5 15.5, 8.5 15.5, 8 14.5 C8.5 13.5, 8.5 13, 8.5 13 Z"/>
+                    </g>
+                    <circle cx="12" cy="12" r="2" stroke="#7c3aed" stroke-width="1.5" fill="#7c3aed" opacity="0.5"/>
+                    <circle cx="12" cy="12" r="0.8" fill="#7c3aed" opacity="0.4"/>
+                </svg>
+                <h3 style="margin-bottom: 12px; color: #1f2937;">LotusIcon</h3>
+                <p style="color: #6b7280; margin-bottom: 8px;">심플 아이콘</p>
+                <p style="color: #9ca3af; font-size: 14px;">네비게이션, 작은 아이콘용</p>
+            </div>
+        </div>
+        
+        <!-- 통합 데모 -->
+        <div style="background: white; border-radius: 16px; padding: 40px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
+            <h2 style="text-align: center; margin-bottom: 40px; color: #1f2937;">통합 사용 예시</h2>
+            
+            <!-- 카드 예시 -->
+            <div style="background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                <div style="aspect-ratio: 16/9; background: linear-gradient(135deg, rgb(167, 243, 208) 0%, rgb(134, 239, 172) 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                    <!-- 카드 배경용 LotusLeaf -->
+                    <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.3">
+                        <g stroke="#059669" stroke-width="1.5" fill="none" stroke-linecap="round">
+                            <path d="M50 15 C35 20, 20 30, 15 45 C12 55, 15 65, 25 75 C35 82, 45 85, 50 85 C55 85, 65 82, 75 75 C85 65, 88 55, 85 45 C80 30, 65 20, 50 15 Z"/>
+                            <path d="M50 15 L50 85" opacity="0.6"/>
+                        </g>
+                    </svg>
+                </div>
+                <h3 style="margin-bottom: 8px; color: #1f2937;">조계사</h3>
+                <p style="color: #6b7280; font-size: 14px;">📍 서울특별시 종로구</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

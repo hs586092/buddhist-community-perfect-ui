@@ -1,0 +1,367 @@
+/**
+ * Linear Animations System
+ * Smooth, natural transitions with fluid motion
+ */
+
+/* Base Animation Variables */
+:root {
+  --animation-duration-fast: 150ms;
+  --animation-duration-normal: 200ms;
+  --animation-duration-slow: 300ms;
+  --animation-duration-slower: 500ms;
+  --animation-easing: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --animation-easing-in: cubic-bezier(0.4, 0.0, 1, 1);
+  --animation-easing-out: cubic-bezier(0.0, 0.0, 0.2, 1);
+  --animation-easing-in-out: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --animation-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Core Animation Classes */
+.animate-linear-fade-in {
+  animation: linearFadeIn var(--animation-duration-normal) var(--animation-easing) forwards;
+}
+
+.animate-linear-fade-out {
+  animation: linearFadeOut var(--animation-duration-normal) var(--animation-easing) forwards;
+}
+
+.animate-linear-slide-up {
+  animation: linearSlideUp var(--animation-duration-normal) var(--animation-easing) forwards;
+}
+
+.animate-linear-slide-down {
+  animation: linearSlideDown var(--animation-duration-normal) var(--animation-easing) forwards;
+}
+
+.animate-linear-slide-left {
+  animation: linearSlideLeft var(--animation-duration-normal) var(--animation-easing) forwards;
+}
+
+.animate-linear-slide-right {
+  animation: linearSlideRight var(--animation-duration-normal) var(--animation-easing) forwards;
+}
+
+.animate-linear-scale-in {
+  animation: linearScaleIn var(--animation-duration-normal) var(--animation-easing) forwards;
+}
+
+.animate-linear-scale-out {
+  animation: linearScaleOut var(--animation-duration-normal) var(--animation-easing) forwards;
+}
+
+/* Spring Animations */
+.animate-linear-bounce {
+  animation: linearBounce var(--animation-duration-slow) var(--animation-spring);
+}
+
+.animate-linear-spring-scale {
+  animation: linearSpringScale var(--animation-duration-slow) var(--animation-spring);
+}
+
+/* Hover Animations */
+.hover-linear-lift {
+  transition: transform var(--animation-duration-normal) var(--animation-easing);
+}
+
+.hover-linear-lift:hover {
+  transform: translateY(-2px) scale(1.01);
+}
+
+.hover-linear-glow {
+  transition: box-shadow var(--animation-duration-normal) var(--animation-easing);
+}
+
+.hover-linear-glow:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.hover-linear-scale {
+  transition: transform var(--animation-duration-fast) var(--animation-easing);
+}
+
+.hover-linear-scale:hover {
+  transform: scale(1.02);
+}
+
+/* Focus Animations */
+.focus-linear-ring {
+  transition: box-shadow var(--animation-duration-fast) var(--animation-easing);
+}
+
+.focus-linear-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* Loading Animations */
+.animate-linear-pulse {
+  animation: linearPulse 2s var(--animation-easing) infinite;
+}
+
+.animate-linear-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: linearShimmer 1.5s ease-in-out infinite;
+}
+
+.dark .animate-linear-shimmer {
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 200% 100%;
+}
+
+.animate-linear-spin {
+  animation: linearSpin 1s linear infinite;
+}
+
+/* Stagger Animations */
+.animate-linear-stagger-fade > * {
+  animation: linearFadeIn var(--animation-duration-normal) var(--animation-easing) forwards;
+}
+
+.animate-linear-stagger-fade > *:nth-child(1) { animation-delay: 0ms; }
+.animate-linear-stagger-fade > *:nth-child(2) { animation-delay: 50ms; }
+.animate-linear-stagger-fade > *:nth-child(3) { animation-delay: 100ms; }
+.animate-linear-stagger-fade > *:nth-child(4) { animation-delay: 150ms; }
+.animate-linear-stagger-fade > *:nth-child(5) { animation-delay: 200ms; }
+.animate-linear-stagger-fade > *:nth-child(6) { animation-delay: 250ms; }
+
+.animate-linear-stagger-slide > * {
+  animation: linearSlideUp var(--animation-duration-normal) var(--animation-easing) forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.animate-linear-stagger-slide > *:nth-child(1) { animation-delay: 0ms; }
+.animate-linear-stagger-slide > *:nth-child(2) { animation-delay: 75ms; }
+.animate-linear-stagger-slide > *:nth-child(3) { animation-delay: 150ms; }
+.animate-linear-stagger-slide > *:nth-child(4) { animation-delay: 225ms; }
+.animate-linear-stagger-slide > *:nth-child(5) { animation-delay: 300ms; }
+
+/* Transition Classes */
+.transition-linear {
+  transition: all var(--animation-duration-normal) var(--animation-easing);
+}
+
+.transition-linear-fast {
+  transition: all var(--animation-duration-fast) var(--animation-easing);
+}
+
+.transition-linear-slow {
+  transition: all var(--animation-duration-slow) var(--animation-easing);
+}
+
+.transition-linear-colors {
+  transition: color var(--animation-duration-normal) var(--animation-easing),
+              background-color var(--animation-duration-normal) var(--animation-easing),
+              border-color var(--animation-duration-normal) var(--animation-easing);
+}
+
+.transition-linear-transform {
+  transition: transform var(--animation-duration-normal) var(--animation-easing);
+}
+
+.transition-linear-opacity {
+  transition: opacity var(--animation-duration-normal) var(--animation-easing);
+}
+
+/* Page Transition Animations */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity var(--animation-duration-slow) var(--animation-easing),
+              transform var(--animation-duration-slow) var(--animation-easing);
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity var(--animation-duration-normal) var(--animation-easing),
+              transform var(--animation-duration-normal) var(--animation-easing);
+}
+
+/* Keyframe Definitions */
+@keyframes linearFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes linearFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes linearSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes linearSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes linearSlideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes linearSlideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes linearScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes linearScaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes linearBounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0,0,0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -8px, 0);
+  }
+  70% {
+    transform: translate3d(0, -4px, 0);
+  }
+  90% {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
+@keyframes linearSpringScale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes linearPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes linearShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes linearSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Utility Classes */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-auto {
+  will-change: auto;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .animate-linear-pulse,
+  .animate-linear-shimmer,
+  .animate-linear-spin,
+  .animate-linear-bounce {
+    animation: none !important;
+  }
+}
+
+/* Performance Optimizations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
+}

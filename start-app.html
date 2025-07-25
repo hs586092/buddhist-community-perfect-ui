@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪷 영성 커뮤니티 - 접속 가이드</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f6f7f6 0%, #e8f5e8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #2d5a3d;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+        
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #8a9a5b 0%, #6b7b44 100%);
+            color: white;
+        }
+        
+        .btn-tertiary {
+            background: linear-gradient(135deg, #d4854e 0%, #b5683c 100%);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .instruction {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #4a90e2;
+        }
+        
+        .status {
+            margin: 20px 0;
+            font-weight: 500;
+        }
+        
+        .success { color: #28a745; }
+        .warning { color: #ffc107; }
+        .error { color: #dc3545; }
+        
+        .alternative {
+            margin-top: 30px;
+            padding: 20px;
+            background: #fff3cd;
+            border-radius: 10px;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .file-path {
+            background: #f1f3f4;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            word-break: break-all;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🪷</div>
+        <h1>영성 커뮤니티 플랫폼</h1>
+        <p>현대적인 Apple/Figma 스타일의 불교 커뮤니티에 오신 것을 환영합니다</p>
+        
+        <div class="button-container">
+            <a href="http://127.0.0.1:9000" class="btn btn-primary" onclick="testConnection(this)">
+                메인 서버로 접속 (127.0.0.1:9000)
+            </a>
+            <a href="http://localhost:9000" class="btn btn-secondary" onclick="testConnection(this)">
+                로컬호스트로 접속 (localhost:9000)
+            </a>
+            <button class="btn btn-tertiary" onclick="openFileDirectly()">
+                파일 직접 열기
+            </button>
+        </div>
+        
+        <div id="status" class="status"></div>
+        
+        <div class="instruction">
+            <h3>💡 접속 방법</h3>
+            <ol style="text-align: left; margin-top: 10px;">
+                <li>위의 "메인 서버로 접속" 버튼을 클릭하세요</li>
+                <li>브라우저에서 새 탭이 열리면서 앱이 실행됩니다</li>
+                <li>첫 번째 방법이 안 되면 다른 버튼들을 시도해보세요</li>
+            </ol>
+        </div>
+        
+        <div class="alternative">
+            <h3>🔧 다른 방법</h3>
+            <p>위 방법들이 모두 실패하면 아래 파일을 브라우저로 직접 드래그하세요:</p>
+            <div class="file-path">
+                /Users/hyeonsoo/platform-of-platforms/buddhist-community/dist/index.html
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function testConnection(link) {
+            const status = document.getElementById('status');
+            status.innerHTML = '<span class="warning">⏳ 연결 테스트 중...</span>';
+            
+            fetch(link.href)
+                .then(response => {
+                    if (response.ok) {
+                        status.innerHTML = '<span class="success">✅ 연결 성공! 새 탭에서 앱이 열립니다.</span>';
+                        window.open(link.href, '_blank');
+                    } else {
+                        status.innerHTML = '<span class="error">❌ 서버 응답 오류. 다른 방법을 시도해보세요.</span>';
+                    }
+                })
+                .catch(error => {
+                    status.innerHTML = '<span class="error">❌ 연결 실패. 파일 직접 열기를 시도해보세요.</span>';
+                });
+            
+            return false;
+        }
+        
+        function openFileDirectly() {
+            const status = document.getElementById('status');
+            status.innerHTML = '<span class="warning">📁 파일 경로를 복사하여 브라우저 주소창에 붙여넣거나, 파일을 브라우저로 드래그하세요.</span>';
+            
+            // 파일 경로를 클립보드에 복사 시도
+            const filePath = 'file:///Users/hyeonsoo/platform-of-platforms/buddhist-community/dist/index.html';
+            navigator.clipboard.writeText(filePath).then(() => {
+                status.innerHTML = '<span class="success">📋 파일 경로가 클립보드에 복사되었습니다! 브라우저 주소창에 붙여넣으세요.</span>';
+            }).catch(() => {
+                // 클립보드 복사 실패 시 수동 안내
+                status.innerHTML = '<span class="warning">📁 위의 파일 경로를 복사하여 브라우저 주소창에 붙여넣거나, 해당 파일을 브라우저로 드래그하세요.</span>';
+            });
+        }
+        
+        // 페이지 로드 시 서버 상태 확인
+        window.onload = function() {
+            fetch('http://127.0.0.1:9000')
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('status').innerHTML = '<span class="success">🟢 서버가 정상 작동 중입니다!</span>';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('status').innerHTML = '<span class="warning">🟡 서버 연결을 확인할 수 없습니다. 직접 접속을 시도해보세요.</span>';
+                });
+        };
+    </script>
+</body>
+</html>

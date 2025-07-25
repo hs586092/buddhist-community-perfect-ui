@@ -1,0 +1,402 @@
+/* 
+ * Buddhist Community Design System 2025
+ * 최신 트렌드를 반영한 불교 커뮤니티 디자인 시스템
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  /* 2025 Buddhist Color Palette */
+  --color-saffron: #F4A261;
+  --color-saffron-light: #F6B373;
+  --color-saffron-dark: #E8924A;
+  
+  --color-meditation-blue: #2A9D8F;
+  --color-meditation-blue-light: #3FB3A3;
+  --color-meditation-blue-dark: #1E7368;
+  
+  --color-lotus-pink: #E9C46A;
+  --color-lotus-pink-light: #EDD285;
+  --color-lotus-pink-dark: #DAB149;
+  
+  --color-cream: #F8F4E6;
+  --color-cream-light: #FAF7F0;
+  --color-cream-dark: #F0E8D0;
+  
+  --color-charcoal: #264653;
+  --color-charcoal-light: #3A5F6F;
+  --color-charcoal-dark: #1A3840;
+
+/* Utility Classes for Colors */
+.bg-saffron { background-color: var(--color-saffron); }
+.bg-meditation-blue { background-color: var(--color-meditation-blue); }
+.bg-lotus-pink { background-color: var(--color-lotus-pink); }
+.bg-charcoal { background-color: var(--color-charcoal); }
+.bg-cream { background-color: var(--color-cream); }
+.bg-cream-light { background-color: var(--color-cream-light); }
+.bg-cream-dark { background-color: var(--color-cream-dark); }
+
+.text-charcoal { color: var(--color-charcoal); }
+.text-charcoal-light { color: var(--color-charcoal-light); }
+.text-saffron { color: var(--color-saffron); }
+
+.from-cream { --tw-gradient-from: var(--color-cream); }
+.via-cream-light { --tw-gradient-via: var(--color-cream-light); }  
+.to-cream-dark { --tw-gradient-to: var(--color-cream-dark); }
+.from-saffron { --tw-gradient-from: var(--color-saffron); }
+.to-lotus-pink { --tw-gradient-to: var(--color-lotus-pink); }
+  
+  /* Dark Mode Colors */
+  --color-dark-indigo: #1A1B3A;
+  --color-dark-indigo-light: #252650;
+  --color-golden-accent: #FFD700;
+  --color-dark-surface: #242442;
+  --color-dark-surface-light: #2E2F4F;
+  
+  /* Glassmorphism Variables */
+  --glass-bg: rgba(248, 244, 230, 0.25);
+  --glass-border: rgba(244, 162, 97, 0.18);
+  --glass-backdrop: blur(16px);
+  --glass-shadow: 0 8px 32px rgba(38, 70, 83, 0.12);
+  
+  /* Neumorphism Variables */
+  --neumorphic-bg: #F8F4E6;
+  --neumorphic-shadow-light: rgba(255, 255, 255, 0.7);
+  --neumorphic-shadow-dark: rgba(38, 70, 83, 0.15);
+  --neumorphic-inset-light: rgba(255, 255, 255, 0.9);
+  --neumorphic-inset-dark: rgba(38, 70, 83, 0.25);
+  
+  /* Typography */
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', sans-serif;
+  
+  /* Spacing & Sizing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-organic: 1.25rem 2rem 1.75rem 1.5rem;
+  
+  /* Animation Durations */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-slower: 700ms;
+  
+  /* Easing Functions */
+  --ease-mindful: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-meditative: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-gentle: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --glass-bg: rgba(26, 27, 58, 0.3);
+    --glass-border: rgba(255, 215, 0, 0.2);
+    --neumorphic-bg: var(--color-dark-indigo);
+    --neumorphic-shadow-light: rgba(255, 215, 0, 0.1);
+    --neumorphic-shadow-dark: rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  color: var(--color-charcoal);
+  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-cream-light) 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Typography Classes */
+.text-heading-xl {
+  font-family: var(--font-serif);
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.text-heading-lg {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.text-heading-md {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.text-heading-sm {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.text-body-lg {
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.text-body {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.text-body-sm {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Glassmorphism Effects */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-xl);
+}
+
+.glass-organic {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-organic);
+}
+
+/* Neumorphism Effects */
+.neumorphic {
+  background: var(--neumorphic-bg);
+  box-shadow: 
+    12px 12px 24px var(--neumorphic-shadow-dark),
+    -12px -12px 24px var(--neumorphic-shadow-light);
+  border-radius: var(--radius-xl);
+  border: none;
+}
+
+.neumorphic-inset {
+  background: var(--neumorphic-bg);
+  box-shadow: 
+    inset 8px 8px 16px var(--neumorphic-inset-dark),
+    inset -8px -8px 16px var(--neumorphic-inset-light);
+  border-radius: var(--radius-xl);
+  border: none;
+}
+
+/* Interactive Elements */
+.interactive {
+  transition: all var(--duration-normal) var(--ease-gentle);
+  cursor: pointer;
+}
+
+.interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 40px rgba(38, 70, 83, 0.15),
+    0 0 0 1px rgba(244, 162, 97, 0.1);
+}
+
+.interactive:active {
+  transform: translateY(0);
+}
+
+/* Floating Action Button */
+.fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  background: linear-gradient(135deg, var(--color-saffron), var(--color-lotus-pink));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 8px 32px rgba(244, 162, 97, 0.3),
+    0 4px 16px rgba(233, 196, 106, 0.2);
+  border: none;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-gentle);
+  z-index: 1000;
+}
+
+.fab:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 
+    0 12px 40px rgba(244, 162, 97, 0.4),
+    0 6px 20px rgba(233, 196, 106, 0.3);
+}
+
+.fab:active {
+  transform: scale(1.05);
+}
+
+/* Breathing Animation */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+.breathing {
+  animation: breathe 4s var(--ease-meditative) infinite;
+}
+
+/* Gentle Glow Effect */
+.glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(244, 162, 97, 0.2), 
+    transparent
+  );
+  transition: left var(--duration-slower) var(--ease-gentle);
+}
+
+.glow:hover::before {
+  left: 100%;
+}
+
+/* Organic Shapes */
+.organic-shape {
+  border-radius: var(--radius-organic);
+  position: relative;
+}
+
+.organic-shape::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--color-saffron), var(--color-meditation-blue));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  -webkit-mask-composite: xor;
+}
+
+/* Prayer Bead Progress Indicator */
+.prayer-beads {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.prayer-bead {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: var(--color-cream-dark);
+  transition: all var(--duration-normal) var(--ease-gentle);
+}
+
+.prayer-bead.active {
+  background: linear-gradient(135deg, var(--color-saffron), var(--color-lotus-pink));
+  transform: scale(1.2);
+  box-shadow: 0 0 12px rgba(244, 162, 97, 0.4);
+}
+
+/* Card Layouts */
+.dharma-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-xl);
+  padding: var(--space-xl);
+}
+
+.sangha-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--space-xl);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+  .sangha-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Utility Classes */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-saffron), var(--color-meditation-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mindful-transition {
+  transition: all var(--duration-normal) var(--ease-mindful);
+}
+
+.meditative-transition {
+  transition: all var(--duration-slow) var(--ease-meditative);
+}
+
+.gentle-transition {
+  transition: all var(--duration-fast) var(--ease-gentle);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .breathing {
+    animation: none;
+  }
+}
+
+/* Focus States */
+.focus-visible:focus-visible {
+  outline: 2px solid var(--color-saffron);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}

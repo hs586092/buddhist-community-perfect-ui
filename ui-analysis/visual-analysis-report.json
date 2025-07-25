@@ -1,0 +1,84 @@
+{
+  "timestamp": "2025-07-25T00:50:43.263Z",
+  "viewport": {
+    "desktop": {
+      "width": 1920,
+      "height": 1080
+    },
+    "mobile": {
+      "width": 375,
+      "height": 812
+    }
+  },
+  "measurements": {
+    "heroLotus": {
+      "width": 48,
+      "height": 48,
+      "visible": true
+    },
+    "navLotus": {
+      "width": 20,
+      "height": 20,
+      "visible": true
+    },
+    "galleryComponents": [
+      {
+        "index": 0,
+        "width": 120,
+        "height": 120,
+        "visible": true
+      },
+      {
+        "index": 1,
+        "width": 60,
+        "height": 80,
+        "visible": true
+      },
+      {
+        "index": 2,
+        "width": 80,
+        "height": 80,
+        "visible": true
+      },
+      {
+        "index": 3,
+        "width": 32,
+        "height": 32,
+        "visible": true
+      }
+    ]
+  },
+  "animations": {
+    "count": 2,
+    "elements": [
+      {
+        "index": 0,
+        "visible": true,
+        "tagName": "svg"
+      },
+      {
+        "index": 1,
+        "visible": false,
+        "tagName": "svg"
+      }
+    ]
+  },
+  "colors": [
+    "white",
+    "#4ade80",
+    "#3b82f6",
+    "#059669",
+    "#7c3aed"
+  ],
+  "screenshots": [
+    "desktop-full.png",
+    "mobile-full.png",
+    "hero-section.png",
+    "navigation.png",
+    "component-gallery.png",
+    "lotusbloom-component.png",
+    "lotusbud-component.png",
+    "lotusleaf-component.png",
+    "lotusicon-component.png"
+  ]
+}

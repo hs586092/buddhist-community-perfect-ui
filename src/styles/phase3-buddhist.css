@@ -1,0 +1,586 @@
+/* Phase 3 Buddhist UI Polishing - 연꽃 모티브 강화 및 마음챙김 타이포그래피 */
+
+:root {
+  /* Enhanced Buddhist Color Palette */
+  --lotus-pink: #F8BBD9;
+  --lotus-white: #FEFEFE;
+  --lotus-gold: #F4E4C1;
+  --monastery-stone: #8B8B8B;
+  --incense-smoke: #E8E8E8;
+  --meditation-gray: #757575;
+  --dharma-gold: #D4A574;
+  --sangha-blue: #6B9DC2;
+  --compassion-green: #7FB069;
+  --wisdom-purple: #9C89B8;
+  --mindfulness-orange: #F0A500;
+  
+  /* Sacred Geometry Measurements */
+  --golden-ratio: 1.618;
+  --sacred-spacing-xs: 0.618rem;   /* φ^-1 */
+  --sacred-spacing-sm: 1rem;       /* base */
+  --sacred-spacing-md: 1.618rem;   /* φ */
+  --sacred-spacing-lg: 2.618rem;   /* φ + 1 */
+  --sacred-spacing-xl: 4.236rem;   /* φ^2 */
+  
+  /* Lotus Petal Radius */
+  --petal-radius: 16px;
+  --lotus-radius: 24px;
+  --mandala-radius: 32px;
+  
+  /* Buddhist Typography Scale */
+  --text-prayer: 0.75rem;     /* 12px - 작은 기도문 */
+  --text-verse: 0.875rem;     /* 14px - 게송, 경문 */
+  --text-dharma: 1rem;        /* 16px - 법문, 기본 */
+  --text-sutra: 1.125rem;     /* 18px - 경전 */
+  --text-teaching: 1.25rem;   /* 20px - 가르침 */
+  --text-title: 1.5rem;       /* 24px - 제목 */
+  --text-mantra: 2rem;        /* 32px - 진언 */
+  
+  /* Breathing Rhythm Timing */
+  --breath-in: 4s;
+  --breath-hold: 6s;
+  --breath-out: 8s;
+  --meditation-cycle: 18s;     /* 4+6+8 */
+}
+
+/* 마음챙김 타이포그래피 */
+.dharma-text {
+  line-height: 1.8;               /* 여유로운 줄간격 */
+  letter-spacing: 0.02em;         /* 차분한 글자간격 */
+  word-break: keep-all;           /* 한글 단어 단위 줄바꿈 */
+  font-weight: 300;               /* 가벼운 글꼴 무게 */
+  color: var(--meditation-gray);
+  font-family: 'Noto Sans KR', 'Inter', system-ui, sans-serif;
+}
+
+.sutra-text {
+  line-height: 2;                 /* 경전체 여백 */
+  letter-spacing: 0.05em;         /* 넓은 글자간격 */
+  font-size: var(--text-sutra);
+  color: var(--monastery-stone);
+  text-align: justify;
+  hyphens: auto;
+}
+
+.mantra-text {
+  line-height: 1.6;
+  letter-spacing: 0.1em;
+  font-size: var(--text-mantra);
+  font-weight: 400;
+  color: var(--dharma-gold);
+  text-align: center;
+}
+
+.prayer-text {
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+  font-size: var(--text-prayer);
+  color: var(--meditation-gray);
+  opacity: 0.8;
+}
+
+/* 연꽃 모티브 강화 */
+.lotus-card {
+  background: linear-gradient(135deg, 
+    var(--lotus-white) 0%, 
+    var(--lotus-pink) 20%, 
+    var(--lotus-white) 40%,
+    var(--lotus-gold) 60%,
+    var(--lotus-white) 100%
+  );
+  border-radius: var(--lotus-radius);
+  border: 1px solid rgba(248, 187, 217, 0.3);
+  box-shadow: 
+    0 4px 20px rgba(212, 165, 116, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.lotus-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(248, 187, 217, 0.1) 0%,
+    transparent 50%
+  );
+  transform: rotate(0deg);
+  animation: lotus-breathe var(--meditation-cycle) ease-in-out infinite;
+}
+
+.lotus-card::after {
+  content: '🪷';
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  opacity: 0.1;
+  animation: gentle-float 6s ease-in-out infinite;
+}
+
+.community-card {
+  background: linear-gradient(135deg, 
+    var(--lotus-white) 0%, 
+    rgba(107, 157, 194, 0.1) 20%,
+    var(--lotus-white) 40%,
+    rgba(127, 176, 105, 0.1) 60%,
+    var(--lotus-white) 100%
+  );
+  border-radius: var(--lotus-radius);
+  border: 1px solid rgba(107, 157, 194, 0.2);
+  box-shadow: 
+    0 4px 20px rgba(107, 157, 194, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.community-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(107, 157, 194, 0.1) 0%,
+    transparent 50%
+  );
+  animation: sangha-breathe var(--meditation-cycle) ease-in-out infinite;
+}
+
+.community-card::after {
+  content: '🙏';
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  opacity: 0.1;
+  animation: gentle-float 8s ease-in-out infinite reverse;
+}
+
+/* 연꽃 꽃잎 버튼 */
+.lotus-petal-button {
+  position: relative;
+  background: linear-gradient(45deg, 
+    var(--lotus-pink) 0%, 
+    var(--lotus-white) 50%, 
+    var(--lotus-gold) 100%
+  );
+  border: none;
+  border-radius: var(--petal-radius);
+  padding: var(--sacred-spacing-sm) var(--sacred-spacing-md);
+  color: var(--meditation-gray);
+  font-weight: 400;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+}
+
+.lotus-petal-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(248, 187, 217, 0.4) 0%, transparent 70%);
+  transition: all 0.4s ease;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+.lotus-petal-button:hover::before {
+  width: 300%;
+  height: 300%;
+}
+
+.lotus-petal-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 32px rgba(212, 165, 116, 0.2);
+}
+
+/* 만다라 패턴 배경 */
+.mandala-background {
+  position: relative;
+  background: var(--lotus-white);
+}
+
+.mandala-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(212, 165, 116, 0.05) 2px, transparent 2px),
+    radial-gradient(circle at 75% 75%, rgba(107, 157, 194, 0.05) 2px, transparent 2px),
+    radial-gradient(circle at 25% 75%, rgba(248, 187, 217, 0.05) 2px, transparent 2px),
+    radial-gradient(circle at 75% 25%, rgba(127, 176, 105, 0.05) 2px, transparent 2px);
+  background-size: 100px 100px, 120px 120px, 80px 80px, 140px 140px;
+  background-position: 0 0, 0 0, 0 0, 0 0;
+  animation: mandala-rotate 60s linear infinite;
+  pointer-events: none;
+}
+
+/* 붓다 실루엣 패턴 */
+.buddha-silhouette {
+  position: relative;
+}
+
+.buddha-silhouette::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  width: 60px;
+  height: 80px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 20c-8 0-15 7-15 15v10c0 8 7 15 15 15s15-7 15-15V35c0-8-7-15-15-15z' fill='%23D4A574' opacity='0.1'/%3E%3Cpath d='M35 45c0 8 7 15 15 15s15-7 15-15' fill='none' stroke='%23D4A574' opacity='0.1' stroke-width='2'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+  opacity: 0.1;
+  animation: gentle-float 12s ease-in-out infinite;
+}
+
+/* 향 연기 효과 */
+.incense-smoke {
+  position: relative;
+  overflow: hidden;
+}
+
+.incense-smoke::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  width: 2px;
+  height: 200%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(232, 232, 232, 0.2) 20%,
+    rgba(232, 232, 232, 0.1) 40%,
+    transparent 60%
+  );
+  animation: smoke-rise 8s ease-in-out infinite;
+  transform: translateX(-50%);
+}
+
+/* 목탁 리듬 애니메이션 */
+.moktak-rhythm {
+  animation: moktak-beat 2s ease-in-out infinite;
+}
+
+/* 불교적 색상 클래스들 */
+.bg-lotus-gradient {
+  background: linear-gradient(135deg, var(--lotus-pink) 0%, var(--lotus-white) 50%, var(--lotus-gold) 100%);
+}
+
+.bg-dharma-gradient {
+  background: linear-gradient(135deg, var(--dharma-gold) 0%, var(--mindfulness-orange) 100%);
+}
+
+.bg-sangha-gradient {
+  background: linear-gradient(135deg, var(--sangha-blue) 0%, var(--wisdom-purple) 100%);
+}
+
+.bg-compassion-gradient {
+  background: linear-gradient(135deg, var(--compassion-green) 0%, var(--sangha-blue) 100%);
+}
+
+.text-lotus-pink { color: var(--lotus-pink); }
+.text-dharma-gold { color: var(--dharma-gold); }
+.text-sangha-blue { color: var(--sangha-blue); }
+.text-compassion-green { color: var(--compassion-green); }
+.text-wisdom-purple { color: var(--wisdom-purple); }
+.text-monastery-stone { color: var(--monastery-stone); }
+
+/* 불교적 애니메이션들 */
+@keyframes lotus-breathe {
+  0%, 100% { 
+    transform: rotate(0deg) scale(1); 
+    opacity: 0.1; 
+  }
+  25% { 
+    transform: rotate(90deg) scale(1.02); 
+    opacity: 0.15; 
+  }
+  50% { 
+    transform: rotate(180deg) scale(1.05); 
+    opacity: 0.2; 
+  }
+  75% { 
+    transform: rotate(270deg) scale(1.02); 
+    opacity: 0.15; 
+  }
+}
+
+@keyframes sangha-breathe {
+  0%, 100% { 
+    transform: rotate(0deg) scale(1); 
+    opacity: 0.08; 
+  }
+  33% { 
+    transform: rotate(120deg) scale(1.03); 
+    opacity: 0.12; 
+  }
+  66% { 
+    transform: rotate(240deg) scale(1.06); 
+    opacity: 0.16; 
+  }
+}
+
+@keyframes gentle-float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  25% { 
+    transform: translateY(-10px) rotate(1deg); 
+  }
+  50% { 
+    transform: translateY(-15px) rotate(0deg); 
+  }
+  75% { 
+    transform: translateY(-5px) rotate(-1deg); 
+  }
+}
+
+@keyframes mandala-rotate {
+  0% { 
+    transform: rotate(0deg); 
+  }
+  100% { 
+    transform: rotate(360deg); 
+  }
+}
+
+@keyframes smoke-rise {
+  0% { 
+    transform: translateX(-50%) translateY(100%); 
+    opacity: 0; 
+  }
+  20% { 
+    opacity: 0.3; 
+  }
+  80% { 
+    opacity: 0.1; 
+  }
+  100% { 
+    transform: translateX(-50%) translateY(-100%) skewX(10deg); 
+    opacity: 0; 
+  }
+}
+
+@keyframes moktak-beat {
+  0%, 100% { 
+    transform: scale(1); 
+  }
+  50% { 
+    transform: scale(1.05); 
+  }
+}
+
+@keyframes prayer-glow {
+  0%, 100% { 
+    text-shadow: 0 0 5px rgba(212, 165, 116, 0.3); 
+  }
+  50% { 
+    text-shadow: 0 0 15px rgba(212, 165, 116, 0.6); 
+  }
+}
+
+/* 경전 읽기 모드 */
+.sutra-reading-mode {
+  background: linear-gradient(
+    to bottom,
+    var(--lotus-white) 0%,
+    var(--incense-smoke) 100%
+  );
+  color: var(--monastery-stone);
+  line-height: 2.2;
+  letter-spacing: 0.08em;
+  font-size: var(--text-sutra);
+  padding: var(--sacred-spacing-xl);
+}
+
+.sutra-reading-mode p {
+  margin-bottom: var(--sacred-spacing-lg);
+  text-indent: 2em;
+}
+
+.sutra-reading-mode .verse {
+  font-style: italic;
+  color: var(--dharma-gold);
+  text-align: center;
+  margin: var(--sacred-spacing-lg) 0;
+  animation: prayer-glow 4s ease-in-out infinite;
+}
+
+/* 명상 상태 표시 */
+.meditation-indicator {
+  position: relative;
+  display: inline-block;
+}
+
+.meditation-indicator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(
+    circle,
+    var(--compassion-green) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: meditation-pulse 3s ease-in-out infinite;
+}
+
+@keyframes meditation-pulse {
+  0%, 100% { 
+    transform: translate(-50%, -50%) scale(0.8); 
+    opacity: 0.6; 
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1.2); 
+    opacity: 1; 
+  }
+}
+
+/* 자비심 반응 버튼 */
+.compassion-reaction {
+  background: linear-gradient(45deg, var(--compassion-green), var(--sangha-blue));
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  color: white;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.compassion-reaction::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  transform: translate(-50%, -50%);
+}
+
+.compassion-reaction:hover::before {
+  width: 100%;
+  height: 100%;
+}
+
+.compassion-reaction:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 24px rgba(127, 176, 105, 0.4);
+}
+
+/* 반응형 불교적 레이아웃 */
+@media (max-width: 768px) {
+  :root {
+    --sacred-spacing-xs: 0.4rem;
+    --sacred-spacing-sm: 0.75rem;
+    --sacred-spacing-md: 1.2rem;
+    --sacred-spacing-lg: 2rem;
+    --sacred-spacing-xl: 3rem;
+  }
+  
+  .dharma-text {
+    line-height: 1.7;
+    font-size: 0.9rem;
+  }
+  
+  .sutra-text {
+    line-height: 1.8;
+    font-size: 1rem;
+  }
+  
+  .lotus-card::after,
+  .community-card::after {
+    font-size: 1rem;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .lotus-card::after,
+  .community-card::after {
+    display: none;
+  }
+  
+  .mandala-background::before {
+    background-size: 60px 60px, 80px 80px, 50px 50px, 90px 90px;
+  }
+}
+
+/* 접근성 향상 */
+@media (prefers-reduced-motion: reduce) {
+  .lotus-card::before,
+  .community-card::before,
+  .incense-smoke::before,
+  .meditation-indicator::before {
+    animation: none;
+  }
+  
+  .mandala-background::before {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* 다크 모드에서의 불교적 색상 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --lotus-white: #2a2a2a;
+    --monastery-stone: #c0c0c0;
+    --incense-smoke: #3a3a3a;
+    --meditation-gray: #b0b0b0;
+  }
+  
+  .lotus-card,
+  .community-card {
+    background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 50%, #2a2a2a 100%);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .dharma-text {
+    color: var(--meditation-gray);
+  }
+}
+
+/* 프린트 모드 */
+@media print {
+  .lotus-card::before,
+  .lotus-card::after,
+  .community-card::before,
+  .community-card::after,
+  .mandala-background::before,
+  .incense-smoke::before {
+    display: none;
+  }
+  
+  .dharma-text,
+  .sutra-text {
+    color: black;
+    font-size: 12pt;
+    line-height: 1.6;
+  }
+}
