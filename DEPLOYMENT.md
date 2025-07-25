@@ -1,93 +1,141 @@
-# 🪷 불교 커뮤니티 배포 가이드
+# 🚀 불교 커뮤니티 플랫폼 - 배포 가이드
 
-## 빠른 배포 (Vercel - 추천)
+## 📋 배포 체크리스트
 
-### 1단계: 프로젝트 준비
+### Phase 1: 개발 환경 준비
+- ✅ **아키텍처 설계 완료**: DDD 기반 시스템 설계
+- ✅ **GraphQL 스키마 설계**: 완전한 도메인 모델링
+- ✅ **TypeScript 타입 시스템**: 전체 도메인 타입 정의
+- ✅ **보안 설계**: AWS Cognito + IAM 기반 보안 아키텍처
+- ✅ **빌드 시스템**: Vite 기반 빌드 검증 완료
+
+### Phase 2: AWS Amplify 백엔드 구성
 ```bash
-npm run build  # 프로덕션 빌드
+# 1. Amplify CLI 설치
+npm install -g @aws-amplify/cli
+
+# 2. AWS 자격 증명 구성
+amplify configure
+
+# 3. Amplify 프로젝트 초기화
+amplify init
+
+# 4. 백엔드 서비스 추가
+amplify add auth      # Cognito 인증
+amplify add api       # AppSync GraphQL API
+amplify add storage   # S3 파일 저장소
+amplify add analytics # Pinpoint 분석
+
+# 5. 백엔드 배포
+amplify push
 ```
 
-### 2단계: Vercel 계정 생성
-1. https://vercel.com 접속
-2. GitHub 계정으로 로그인
-3. "New Project" 클릭
+### Phase 3: 프론트엔드 구현
+```bash
+# 1. AWS Amplify 라이브러리 설치
+npm install aws-amplify @aws-amplify/ui-react
 
-### 3단계: 배포
-1. GitHub repository 선택
-2. 자동으로 React 프로젝트 인식
-3. "Deploy" 클릭
-4. 2-3분 후 완료!
+# 2. GraphQL 코드 생성
+amplify codegen
 
-### 결과
-- **무료 도메인**: your-app-name.vercel.app
-- **커스텀 도메인**: 유료 플랜에서 연결 가능
-- **HTTPS 자동 적용**
+# 3. 개발 서버 실행
+npm run dev
 
-## AWS Amplify 배포 (AWS 백엔드 연동)
-
-### 1단계: AWS Amplify Console
-1. AWS Console → Amplify
-2. "새 앱 호스팅" 선택
-3. GitHub 연결
-
-### 2단계: 환경 변수 설정
-```
-REACT_APP_AWS_REGION=ap-northeast-2
-REACT_APP_COGNITO_USER_POOL_ID=[UserPool ID]
-REACT_APP_COGNITO_CLIENT_ID=[Client ID]
-REACT_APP_API_GATEWAY_URL=[API URL]
+# 4. 프로덕션 빌드
+npm run build
 ```
 
-### 3단계: 빌드 설정
-```yaml
-version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - npm ci
-    build:
-      commands:
-        - npm run build
-  artifacts:
-    baseDirectory: dist
-    files:
-      - '**/*'
+### Phase 4: 배포 및 호스팅
+```bash
+# 1. Amplify 호스팅 추가
+amplify add hosting
+
+# 2. 전체 스택 배포
+amplify publish
+
+# 3. CI/CD 파이프라인 설정
+# GitHub Actions 또는 Amplify Console 사용
 ```
 
-## 커스텀 도메인 연결
+## 🏗️ 인프라스트럭처 구성
 
-### 도메인 구매처
-- **Namecheap**: 저렴한 가격
-- **GoDaddy**: 인지도 높음  
-- **AWS Route 53**: AWS와 완벽 통합
+### AWS 서비스 구성도
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    🌐 Route 53 (DNS)                        │
+└─────────────────────┬───────────────────────────────────────┘
+                      │
+┌─────────────────────▼───────────────────────────────────────┐
+│              🚀 CloudFront (CDN + WAF)                      │
+│  ├── Global Edge Locations                                  │
+│  ├── SSL/TLS Termination                                    │
+│  ├── DDoS Protection                                        │
+│  └── Web Application Firewall                               │
+└─────────────────────┬───────────────────────────────────────┘
+                      │
+┌─────────────────────▼───────────────────────────────────────┐
+│                🏠 Amplify Hosting                           │
+│  ├── React SPA Hosting                                      │
+│  ├── Auto Deployment                                        │
+│  ├── Branch-based Environments                              │
+│  └── Custom Domain                                          │
+└─────────────────────┬───────────────────────────────────────┘
+                      │
+┌─────────────────────▼───────────────────────────────────────┐
+│                🔗 AppSync (GraphQL)                         │
+│  ├── Real-time Subscriptions                               │
+│  ├── Offline Sync                                          │
+│  ├── Data Source Resolvers                                 │
+│  └── Caching Layer                                          │
+└─┬─────────────┬─────────────┬─────────────┬─────────────────┘
+  │             │             │             │
+  ▼             ▼             ▼             ▼
+┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────────┐
+│🔐Cognito│ │📊DynamoDB│ │📁 S3    │ │⚡ Lambda    │
+│User Pool│ │Single   │ │Storage  │ │Functions   │
+│& Groups │ │Table    │ │Bucket   │ │& Layers    │
+└─────────┘ └─────────┘ └─────────┘ └─────────────┘
+```
 
-### 추천 도메인명
-- buddhist-community.com
-- seonwon.kr (선원)
-- bulkyo-community.com
-- dharma-community.kr
+## 🛠️ 개발 환경 설정
 
-## 비용 예상
+### 환경 변수 설정
+```bash
+# .env.local
+REACT_APP_AWS_REGION=us-east-1
+REACT_APP_USER_POOL_ID=us-east-1_xxxxxxxxx
+REACT_APP_USER_POOL_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxx
+REACT_APP_IDENTITY_POOL_ID=us-east-1:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+REACT_APP_APPSYNC_GRAPHQL_ENDPOINT=https://xxxxxxxxxxxxxxxxxxxxxxxxxx.appsync-api.us-east-1.amazonaws.com/graphql
+REACT_APP_APPSYNC_REGION=us-east-1
+REACT_APP_APPSYNC_AUTHENTICATION_TYPE=AMAZON_COGNITO_USER_POOLS
+REACT_APP_S3_BUCKET=buddhist-community-storage-xxxxxxxxx
+```
 
-### Vercel
-- **무료**: .vercel.app 도메인
-- **Pro ($20/월)**: 커스텀 도메인, 고급 분석
+### Amplify 구성 파일
+```typescript
+// src/aws-exports.ts (Auto-generated)
+const awsconfig = {
+  aws_project_region: 'us-east-1',
+  aws_cognito_region: 'us-east-1',
+  aws_user_pools_id: 'us-east-1_xxxxxxxxx',
+  aws_user_pools_web_client_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
+  oauth: {
+    domain: 'buddhist-community-dev.auth.us-east-1.amazoncognito.com',
+    scope: ['phone', 'email', 'openid', 'profile', 'aws.cognito.signin.user.admin'],
+    redirectSignIn: 'http://localhost:3000/',
+    redirectSignOut: 'http://localhost:3000/',
+    responseType: 'code'
+  },
+  federationTarget: 'COGNITO_USER_POOLS',
+  aws_appsync_graphqlEndpoint: 'https://xxxxxxxxxxxxxxxxxxxxxxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
+  aws_user_files_s3_bucket: 'buddhist-community-storage-xxxxxxxxx',
+  aws_user_files_s3_bucket_region: 'us-east-1'
+};
 
-### AWS Amplify + 백엔드
-- **호스팅**: $1-3/월
-- **DynamoDB**: $1-5/월 (사용량 기반)
-- **Lambda**: 거의 무료 (월 100만 요청)
-- **총 예상**: $5-10/월
+export default awsconfig;
+```
 
-### 도메인
-- **.com**: $10-15/년
-- **.kr**: $20-30/년
-
-## 🚀 즉시 시작하기
-
-1. **가장 빠른 방법**: Vercel 무료 배포 (5분)
-2. **완전한 방법**: AWS Amplify + 커스텀 도메인 (1시간)
-3. **프로페셔널**: AWS + 도메인 + SSL (2시간)
-
-어떤 방법을 선호하시나요?
+이 배포 가이드를 통해 불교 커뮤니티 플랫폼을 안전하고 효율적으로 AWS 클라우드에 배포할 수 있습니다! 🚀✨

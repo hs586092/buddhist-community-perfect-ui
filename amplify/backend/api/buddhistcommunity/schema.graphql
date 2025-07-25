@@ -1,0 +1,664 @@
+# 불교 커뮤니티 플랫폼 - GraphQL Schema
+# DDD 기반 도메인 모델링
+
+# ==========================================
+# 🔐 AUTHENTICATION & USER MANAGEMENT
+# ==========================================
+
+type User @model @auth(rules: [
+  { allow: owner }
+  { allow: private, operations: [read] }
+  { allow: groups, groups: ["Moderators"], operations: [read, update] }
+]) {
+  id: ID!
+  username: String! @index(name: "byUsername")
+  email: String!
+  
+  # 개인 정보
+  fullName: String
+  temple: String @index(name: "byTemple")
+  dharmaName: String
+  level: UserLevel!
+  joinDate: AWSDate!
+  
+  # 프로필 이미지
+  profileImage: String
+  
+  # 수행 관련
+  practiceYears: Int
+  specialties: [PracticeSpecialty!]
+  
+  # 관계형 데이터
+  reviews: [Review] @hasMany(indexName: "byUser", fields: ["id"])
+  posts: [Post] @hasMany(indexName: "byAuthor", fields: ["id"])
+  chatMessages: [ChatMessage] @hasMany(indexName: "byUser", fields: ["id"])
+  meditationSessions: [MeditationSession] @hasMany(indexName: "byUser", fields: ["id"])
+  
+  # 팔로우 관계
+  following: [Follow] @hasMany(indexName: "byFollower", fields: ["id"])
+  followers: [Follow] @hasMany(indexName: "byFollowing", fields: ["id"])
+  
+  # 통계
+  reviewCount: Int @default(value: "0")
+  postCount: Int @default(value: "0")
+  meditationMinutes: Int @default(value: "0")
+  
+  # 설정
+  isActive: Boolean! @default(value: "true")
+  notifications: NotificationSettings
+  privacy: PrivacySettings
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum UserLevel {
+  SEEKER        # 구도자
+  PRACTITIONER  # 수행자  
+  EXPERIENCED   # 경험자
+  GUIDE         # 안내자
+  TEACHER       # 지도자
+  MASTER        # 법사
+}
+
+enum PracticeSpecialty {
+  MEDITATION    # 명상
+  SUTRA_STUDY   # 경전 공부
+  CHANTING      # 염불
+  MINDFULNESS   # 마음챙김
+  YOGA          # 요가
+  TEA_CEREMONY  # 차 명상
+}
+
+type NotificationSettings {
+  reviews: Boolean! @default(value: "true")
+  comments: Boolean! @default(value: "true")
+  mentions: Boolean! @default(value: "true")
+  follows: Boolean! @default(value: "true")
+  dharmaUpdates: Boolean! @default(value: "true")
+}
+
+type PrivacySettings {
+  profileVisibility: VisibilityLevel! @default(value: "PUBLIC")
+  reviewVisibility: VisibilityLevel! @default(value: "PUBLIC")
+  practiceVisibility: VisibilityLevel! @default(value: "FRIENDS")
+}
+
+enum VisibilityLevel {
+  PUBLIC
+  FRIENDS
+  PRIVATE
+}
+
+# ==========================================
+# 🏛️ DHARMA REVIEW DOMAIN
+# ==========================================
+
+type DharmaSession @model @auth(rules: [
+  { allow: public, operations: [read] }
+  { allow: groups, groups: ["Moderators", "ContentCreators"], operations: [create, update, delete] }
+]) {
+  id: ID!
+  title: String!
+  
+  # 기본 정보
+  temple: String! @index(name: "byTemple")
+  monk: String!
+  date: AWSDateTime! @index(name: "byDate")
+  duration: Int # minutes
+  capacity: Int
+  
+  # 콘텐츠
+  description: String
+  category: DharmaCategory! @index(name: "byCategory")
+  tags: [String!]
+  language: Language! @default(value: "KOREAN")
+  
+  # 미디어
+  images: [String!]
+  audioUrl: String
+  videoUrl: String
+  
+  # 관계형 데이터
+  reviews: [Review] @hasMany(indexName: "byDharmaSession", fields: ["id"])
+  attendees: [Attendance] @hasMany(indexName: "byDharmaSession", fields: ["id"])
+  
+  # 통계 및 집계
+  avgRating: Float @default(value: "0")
+  reviewCount: Int @default(value: "0")
+  attendeeCount: Int @default(value: "0")
+  
+  # 상태
+  status: SessionStatus! @default(value: "SCHEDULED")
+  isOnline: Boolean! @default(value: "false")
+  onlineUrl: String
+  
+  # 메타데이터
+  createdBy: String!
+  isActive: Boolean! @default(value: "true")
+  isFeatured: Boolean @default(value: "false")
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum DharmaCategory {
+  MEDITATION      # 명상
+  SUTRA_STUDY     # 경전 공부
+  DHARMA_TALK     # 법문
+  CEREMONY        # 의식/법회
+  RETREAT         # 수련회
+  DISCUSSION      # 토론/문답
+  CHANTING        # 염불
+  TEA_CEREMONY    # 차 명상
+  WALKING_MEDITATION # 행선
+  COMMUNITY_SERVICE  # 봉사
+}
+
+enum SessionStatus {
+  SCHEDULED   # 예정
+  ONGOING     # 진행중
+  COMPLETED   # 완료
+  CANCELLED   # 취소
+  POSTPONED   # 연기
+}
+
+enum Language {
+  KOREAN
+  ENGLISH
+  CHINESE
+  JAPANESE
+}
+
+type Review @model @auth(rules: [
+  { allow: public, operations: [read] }
+  { allow: owner, operations: [create, update, delete] }
+  { allow: groups, groups: ["Moderators"], operations: [update, delete] }
+]) {
+  id: ID!
+  
+  # 관계
+  dharmaSessionId: ID! @index(name: "byDharmaSession")
+  dharmaSession: DharmaSession @belongsTo(fields: ["dharmaSessionId"])
+  userId: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userId"])
+  
+  # 평가
+  rating: Int! # 1-5
+  title: String!
+  content: String!
+  
+  # 세부 평가
+  contentQuality: Int # 1-5
+  teachingClarity: Int # 1-5
+  atmosphere: Int # 1-5
+  
+  # 미디어
+  images: [String!]
+  
+  # 검증
+  isVerified: Boolean @default(value: "false")
+  attendanceVerified: Boolean @default(value: "false")
+  
+  # 상호작용
+  comments: [Comment] @hasMany(indexName: "byReview", fields: ["id"])
+  likes: [ReviewLike] @hasMany(indexName: "byReview", fields: ["id"])
+  reports: [ReviewReport] @hasMany(indexName: "byReview", fields: ["id"])
+  
+  # 통계
+  likeCount: Int @default(value: "0")
+  commentCount: Int @default(value: "0")
+  helpfulCount: Int @default(value: "0")
+  
+  # 메타데이터
+  isPublished: Boolean! @default(value: "true")
+  language: Language! @default(value: "KOREAN")
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Comment @model @auth(rules: [
+  { allow: public, operations: [read] }
+  { allow: owner, operations: [create, update, delete] }
+  { allow: groups, groups: ["Moderators"], operations: [delete] }
+]) {
+  id: ID!
+  
+  # 관계
+  reviewId: ID! @index(name: "byReview")
+  review: Review @belongsTo(fields: ["reviewId"])
+  userId: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userId"])
+  
+  # 대댓글 지원
+  parentCommentId: ID @index(name: "byParentComment")
+  parentComment: Comment @belongsTo(fields: ["parentCommentId"])
+  replies: [Comment] @hasMany(indexName: "byParentComment", fields: ["id"])
+  
+  # 콘텐츠
+  content: String!
+  
+  # 상호작용
+  likes: [CommentLike] @hasMany(indexName: "byComment", fields: ["id"])
+  likeCount: Int @default(value: "0")
+  
+  # 메타데이터
+  isActive: Boolean! @default(value: "true")
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+# ==========================================
+# 💬 COMMUNITY COMMUNICATION DOMAIN
+# ==========================================
+
+type Post @model @auth(rules: [
+  { allow: public, operations: [read] }
+  { allow: owner, operations: [create, update, delete] }
+  { allow: groups, groups: ["Moderators"], operations: [update, delete] }
+]) {
+  id: ID!
+  
+  # 작성자
+  authorId: ID! @index(name: "byAuthor")
+  author: User @belongsTo(fields: ["authorId"])
+  
+  # 콘텐츠
+  title: String!
+  content: String!
+  excerpt: String
+  
+  # 카테고리
+  category: PostCategory! @index(name: "byCategory")
+  tags: [String!]
+  
+  # 미디어
+  images: [String!]
+  attachments: [String!]
+  
+  # 상호작용
+  comments: [PostComment] @hasMany(indexName: "byPost", fields: ["id"])
+  likes: [PostLike] @hasMany(indexName: "byPost", fields: ["id"])
+  
+  # 통계
+  viewCount: Int @default(value: "0")
+  likeCount: Int @default(value: "0")
+  commentCount: Int @default(value: "0")
+  shareCount: Int @default(value: "0")
+  
+  # 상태
+  status: PostStatus! @default(value: "PUBLISHED")
+  isPinned: Boolean @default(value: "false")
+  isFeatured: Boolean @default(value: "false")
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum PostCategory {
+  DISCUSSION    # 토론
+  QUESTION      # 질문
+  SHARING       # 나눔
+  NEWS          # 소식
+  EVENT         # 행사
+  STUDY         # 공부
+  MEDITATION    # 명상
+  DAILY_LIFE    # 일상
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  HIDDEN
+  DELETED
+}
+
+type ChatRoom @model @auth(rules: [
+  { allow: private }
+  { allow: groups, groups: ["Moderators"], operations: [create, update, delete] }
+]) {
+  id: ID!
+  name: String!
+  description: String
+  
+  # 타입
+  type: ChatRoomType! @default(value: "PUBLIC")
+  category: ChatCategory!
+  
+  # 멤버십
+  members: [ChatMember] @hasMany(indexName: "byChatRoom", fields: ["id"])
+  messages: [ChatMessage] @hasMany(indexName: "byChatRoom", fields: ["id"])
+  
+  # 설정
+  maxMembers: Int @default(value: "100")
+  isActive: Boolean! @default(value: "true")
+  
+  # 통계
+  memberCount: Int @default(value: "0")
+  messageCount: Int @default(value: "0")
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum ChatRoomType {
+  PUBLIC
+  PRIVATE
+  DIRECT_MESSAGE
+}
+
+enum ChatCategory {
+  GENERAL       # 일반
+  MEDITATION    # 명상
+  STUDY         # 공부
+  TEMPLE_LIFE   # 사찰생활
+  BEGINNERS     # 초심자
+  ADVANCED      # 숙련자
+}
+
+type ChatMessage @model @auth(rules: [
+  { allow: private }
+]) {
+  id: ID!
+  
+  # 관계
+  chatRoomId: ID! @index(name: "byChatRoom")
+  chatRoom: ChatRoom @belongsTo(fields: ["chatRoomId"])
+  userId: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userId"])
+  
+  # 콘텐츠
+  content: String!
+  messageType: MessageType! @default(value: "TEXT")
+  
+  # 미디어
+  mediaUrl: String
+  mediaType: String
+  
+  # 상호작용
+  reactions: [MessageReaction] @hasMany(indexName: "byMessage", fields: ["id"])
+  
+  # 메타데이터
+  isEdited: Boolean @default(value: "false")
+  isDeleted: Boolean @default(value: "false")
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  FILE
+  AUDIO
+  SYSTEM
+}
+
+# ==========================================
+# 🧘 PRACTICE MANAGEMENT DOMAIN
+# ==========================================
+
+type MeditationSession @model @auth(rules: [
+  { allow: owner }
+  { allow: private, operations: [read] }
+]) {
+  id: ID!
+  
+  # 사용자
+  userId: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userId"])
+  
+  # 세션 정보
+  title: String
+  type: MeditationType!
+  duration: Int! # minutes
+  
+  # 일정
+  scheduledDate: AWSDateTime
+  actualStartTime: AWSDateTime
+  actualEndTime: AWSDateTime
+  
+  # 내용
+  notes: String
+  mood: MoodLevel
+  focus: FocusLevel
+  insights: String
+  
+  # 가이드
+  guidedBy: String
+  audioGuide: String
+  
+  # 상태
+  status: SessionStatus!
+  isCompleted: Boolean! @default(value: "false")
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum MeditationType {
+  SITTING         # 좌선
+  WALKING         # 행선
+  CHANTING        # 염불
+  BREATHING       # 호흡명상
+  MINDFULNESS     # 마음챙김
+  LOVING_KINDNESS # 자비명상
+  BODY_SCAN       # 바디스캔
+  VISUALIZATION   # 관상명상
+}
+
+enum MoodLevel {
+  VERY_LOW
+  LOW
+  NEUTRAL
+  HIGH
+  VERY_HIGH
+}
+
+enum FocusLevel {
+  VERY_POOR
+  POOR
+  AVERAGE
+  GOOD
+  EXCELLENT
+}
+
+# ==========================================
+# 🔄 SUPPORTING ENTITIES
+# ==========================================
+
+# 출석 관리
+type Attendance @model @auth(rules: [
+  { allow: owner }
+  { allow: groups, groups: ["Moderators"], operations: [read, create, update] }
+]) {
+  id: ID!
+  dharmaSessionId: ID! @index(name: "byDharmaSession")
+  dharmaSession: DharmaSession @belongsTo(fields: ["dharmaSessionId"])
+  userId: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userId"])
+  
+  status: AttendanceStatus!
+  checkInTime: AWSDateTime
+  checkOutTime: AWSDateTime
+  notes: String
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum AttendanceStatus {
+  REGISTERED
+  CHECKED_IN
+  ATTENDED
+  NO_SHOW
+  CANCELLED
+}
+
+# 팔로우 관계
+type Follow @model @auth(rules: [
+  { allow: owner }
+  { allow: private, operations: [read] }
+]) {
+  id: ID!
+  followerId: ID! @index(name: "byFollower")
+  follower: User @belongsTo(fields: ["followerId"])
+  followingId: ID! @index(name: "byFollowing")
+  following: User @belongsTo(fields: ["followingId"])
+  
+  createdAt: AWSDateTime!
+}
+
+# 좋아요 시스템
+type ReviewLike @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  reviewId: ID! @index(name: "byReview")
+  review: Review @belongsTo(fields: ["reviewId"])
+  userId: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userId"])
+  
+  createdAt: AWSDateTime!
+}
+
+type CommentLike @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  commentId: ID! @index(name: "byComment")
+  comment: Comment @belongsTo(fields: ["commentId"])
+  userId: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userId"])
+  
+  createdAt: AWSDateTime!
+}
+
+type PostLike @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  postId: ID! @index(name: "byPost")
+  post: Post @belongsTo(fields: ["postId"])
+  userId: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userId"])
+  
+  createdAt: AWSDateTime!
+}
+
+type PostComment @model @auth(rules: [
+  { allow: public, operations: [read] }
+  { allow: owner, operations: [create, update, delete] }
+]) {
+  id: ID!
+  postId: ID! @index(name: "byPost")
+  post: Post @belongsTo(fields: ["postId"])
+  userId: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userId"])
+  
+  content: String!
+  parentCommentId: ID
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type ChatMember @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  chatRoomId: ID! @index(name: "byChatRoom")
+  chatRoom: ChatRoom @belongsTo(fields: ["chatRoomId"])
+  userId: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userId"])
+  
+  role: ChatRole! @default(value: "MEMBER")
+  joinedAt: AWSDateTime!
+  lastReadAt: AWSDateTime
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum ChatRole {
+  ADMIN
+  MODERATOR
+  MEMBER
+}
+
+type MessageReaction @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  messageId: ID! @index(name: "byMessage")
+  message: ChatMessage @belongsTo(fields: ["messageId"])
+  userId: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userId"])
+  
+  reaction: String! # emoji
+  
+  createdAt: AWSDateTime!
+}
+
+# 신고 시스템
+type ReviewReport @model @auth(rules: [
+  { allow: owner }
+  { allow: groups, groups: ["Moderators"] }
+]) {
+  id: ID!
+  reviewId: ID! @index(name: "byReview")
+  review: Review @belongsTo(fields: ["reviewId"])
+  reporterId: ID! @index(name: "byReporter")
+  reporter: User @belongsTo(fields: ["reporterId"])
+  
+  reason: ReportReason!
+  description: String
+  status: ReportStatus! @default(value: "PENDING")
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum ReportReason {
+  INAPPROPRIATE_CONTENT
+  SPAM
+  HARASSMENT
+  FALSE_INFORMATION
+  COPYRIGHT_VIOLATION
+  OTHER
+}
+
+enum ReportStatus {
+  PENDING
+  REVIEWED
+  RESOLVED
+  REJECTED
+}
+
+# ==========================================
+# 🔔 NOTIFICATIONS
+# ==========================================
+
+type Notification @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  userId: ID! @index(name: "byUser")
+  user: User @belongsTo(fields: ["userId"])
+  
+  type: NotificationType!
+  title: String!
+  content: String!
+  
+  # 관련 리소스
+  relatedId: String
+  relatedType: String
+  
+  # 상태
+  isRead: Boolean! @default(value: "false")
+  isArchived: Boolean @default(value: "false")
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum NotificationType {
+  REVIEW_COMMENT
+  REVIEW_LIKE
+  POST_COMMENT
+  POST_LIKE
+  FOLLOW
+  MENTION
+  DHARMA_SESSION_REMINDER
+  SYSTEM_ANNOUNCEMENT
+}
