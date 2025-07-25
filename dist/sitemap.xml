@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- 메인 페이지 -->
+  <url>
+    <loc>https://buddhist-community.vercel.app/</loc>
+    <lastmod>2024-01-15T10:00:00+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- 법회 리뷰 페이지 -->
+  <url>
+    <loc>https://buddhist-community.vercel.app/review</loc>
+    <lastmod>2024-01-15T10:00:00+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- 불자 소통 페이지 -->
+  <url>
+    <loc>https://buddhist-community.vercel.app/community</loc>
+    <lastmod>2024-01-15T10:00:00+09:00</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- 소개 페이지 -->
+  <url>
+    <loc>https://buddhist-community.vercel.app/about</loc>
+    <lastmod>2024-01-15T10:00:00+09:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 개인정보 처리방침 -->
+  <url>
+    <loc>https://buddhist-community.vercel.app/privacy</loc>
+    <lastmod>2024-01-15T10:00:00+09:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- 이용약관 -->
+  <url>
+    <loc>https://buddhist-community.vercel.app/terms</loc>
+    <lastmod>2024-01-15T10:00:00+09:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- 문의하기 -->
+  <url>
+    <loc>https://buddhist-community.vercel.app/contact</loc>
+    <lastmod>2024-01-15T10:00:00+09:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>
