@@ -3,14 +3,23 @@ frontend:
   phases:
     preBuild:
       commands:
+        - echo "Node version:"
+        - node --version
+        - echo "NPM version:"
+        - npm --version
+        - echo "Installing dependencies..."
         - npm ci
     build:
       commands:
         - echo "Starting build..."
+        - echo "Environment variables:"
+        - env | grep -E "(NODE_|npm_|DEPLOY_)"
         - npm run build
         - echo "Build completed, checking dist folder..."
         - ls -la
-        - ls -la dist
+        - ls -la dist/
+        - echo "Checking if index.html exists:"
+        - cat dist/index.html | head -20
   artifacts:
     baseDirectory: dist
     files:
