@@ -1,11 +1,22 @@
 {
   "name": "buddhist-community",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
+  "description": "Buddhist Community Platform - Connect, Learn, Practice Together",
+  "keywords": [
+    "buddhist",
+    "community",
+    "meditation",
+    "spiritual",
+    "dharma",
+    "amplify"
+  ],
+  "homepage": "https://github.com/your-org/buddhist-community",
   "dependencies": {
     "@aws-amplify/api": "^6.3.16",
     "@aws-amplify/auth": "^6.14.0",
+    "@aws-amplify/ui-react": "^6.11.2",
     "@hookform/resolvers": "^5.1.1",
     "@tanstack/react-query": "^5.83.0",
     "@tanstack/react-query-devtools": "^5.83.0",
@@ -83,9 +94,28 @@
     "clean:install": "npm run clean && npm install",
     "predeploy": "DEPLOY_TARGET=github-pages npm run build",
     "deploy": "gh-pages -d dist",
-    "build:amplify": "npm run build"
+    "build:amplify": "npm run build",
+    "deploy:check": "./scripts/check-prerequisites.sh",
+    "deploy:init": "./scripts/amplify-init.sh",
+    "deploy:setup": "./scripts/setup-backend-services.sh",
+    "deploy:production": "./scripts/deploy-production.sh",
+    "deploy:monitoring": "./scripts/setup-monitoring.sh",
+    "deploy:full": "npm run deploy:check && npm run deploy:init && npm run deploy:setup && npm run deploy:production && npm run deploy:monitoring",
+    "deploy:korea": "./scripts/deploy-korea-optimized.sh",
+    "build:korea": "NODE_ENV=production VITE_TARGET_COUNTRY=KR vite build --mode production",
+    "dev:korea": "VITE_TARGET_COUNTRY=KR vite dev",
+    "preview:korea": "VITE_TARGET_COUNTRY=KR vite preview"
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/buddhist-community.git"
+  },
+  "author": "Buddhist Community Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/your-org/buddhist-community/issues"
   }
 }

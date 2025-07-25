@@ -1,0 +1,379 @@
+# 🇰🇷 한국 불교 커뮤니티 전용 GraphQL 스키마
+# 비용 최적화 + 성능 최적화 + 한국 불교 특화
+
+# ==========================================
+# 🏛️ 한국 사찰 정보
+# ==========================================
+type Temple @model 
+  @auth(rules: [
+    { allow: public, operations: [read] }
+    { allow: groups, groups: ["운영자"], operations: [create, update, delete] }
+  ]) {
+  id: ID!
+  name: String! @index(name: "byName", queryField: "searchTemples")
+  branch: String! # 조계종, 천태종, 진각종 등
+  address: KoreanAddress!
+  contact: Contact
+  description: String
+  features: [String!] # 주차장, 법당, 요사채 등
+  dharmaSessions: [DharmaSession] @hasMany
+  avgRating: Float
+  reviewCount: Int @default(value: "0")
+  isActive: Boolean! @default(value: "true")
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type KoreanAddress {
+  roadAddress: String! # 도로명 주소
+  jibunAddress: String # 지번 주소
+  sido: String! # 시도
+  sigungu: String! # 시군구
+  dong: String # 동/읍/면
+  zipCode: String!
+  latitude: Float
+  longitude: Float
+}
+
+type Contact {
+  phone: String @regex(pattern: "^01[016789]-?\\d{3,4}-?\\d{4}$")
+  email: String @email
+  website: String @url
+  kakaoId: String
+}
+
+# ==========================================
+# 🙏 법회 정보 (한국 특화)
+# ==========================================
+type DharmaSession @model 
+  @auth(rules: [
+    { allow: public, operations: [read] }
+    { allow: groups, groups: ["운영자", "법사"], operations: [create, update, delete] }
+  ]) {
+  id: ID!
+  title: String! @index(name: "byTitle")
+  templeId: ID! @index(name: "byTemple")
+  temple: Temple @belongsTo
+  
+  # 한국 불교 특화 카테고리
+  category: KoreanDharmaCategory! @index(name: "byCategory")
+  type: SessionType! @default(value: "REGULAR")
+  
+  # 일정 정보
+  startDateTime: AWSDateTime! @index(name: "byDate", sortKeyFields: ["startDateTime"])
+  endDateTime: AWSDateTime!
+  isRecurring: Boolean @default(value: "false")
+  recurringPattern: RecurringPattern
+  
+  # 진행자 정보
+  monk: MonkInfo!
+  assistants: [String!] # 보조 진행자
+  
+  # 참가 정보
+  maxParticipants: Int
+  currentParticipants: Int @default(value: "0")
+  ageRestriction: AgeGroup
+  prerequisites: [String!] # 사전 준비물, 복장 안내 등
+  
+  # 내용
+  description: String!
+  materials: [String!] # 경전, 교재 등
+  language: Language! @default(value: "KOREAN")
+  
+  # 위치 및 접근성
+  location: SessionLocation!
+  accessibility: [AccessibilityFeature!] # 휠체어, 주차장 등
+  
+  # 리뷰 및 평가
+  reviews: [Review] @hasMany
+  avgRating: Float @default(value: "0")
+  reviewCount: Int @default(value: "0")
+  
+  # 상태
+  status: SessionStatus! @default(value: "SCHEDULED")
+  registrationRequired: Boolean @default(value: "false")
+  isFeatured: Boolean @default(value: "false")
+  
+  # 비용 정보 (무료 원칙이지만 보시/공양 안내)
+  offering: OfferingInfo
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum KoreanDharmaCategory {
+  GENERAL_DHARMA     # 일반 법회
+  MORNING_CHANTING   # 아침 예불
+  EVENING_CHANTING   # 저녁 예불
+  MEDITATION         # 참선/명상
+  SUTRA_STUDY        # 경전 공부
+  DHARMA_TALK        # 법문
+  YOUTH_DHARMA       # 청년 법회
+  CHILDREN_DHARMA    # 어린이 법회
+  FAMILY_DHARMA      # 가족 법회
+  SPECIAL_CEREMONY   # 특별 의식 (49재, 천도재 등)
+  RETREAT            # 수련회/템플스테이
+  COMMUNITY_SERVICE  # 봉사 활동
+  CULTURAL_EVENT     # 문화 행사
+  LOTUS_LANTERN      # 연등 법회
+  BUDDHA_BIRTHDAY    # 부처님 오신 날
+}
+
+enum SessionType {
+  REGULAR      # 정기 법회
+  SPECIAL      # 특별 법회
+  RETREAT      # 수련회
+  CEREMONY     # 의식
+  EDUCATION    # 교육
+  PILGRIMAGE   # 순례
+}
+
+type RecurringPattern {
+  frequency: Frequency!
+  interval: Int! # 매주, 격주, 매월 등
+  dayOfWeek: [DayOfWeek!] # 요일
+  endDate: AWSDateTime
+}
+
+enum Frequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY  
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+type MonkInfo {
+  name: String!
+  title: String # 스님, 법사, 전법사 등
+  temple: String
+  biography: String
+  specialties: [String!] # 전문 분야
+  profileImage: String @url
+}
+
+enum AgeGroup {
+  ALL_AGES      # 전 연령
+  CHILDREN      # 어린이 (6-12세)
+  YOUTH         # 청소년 (13-19세)
+  YOUNG_ADULT   # 청년 (20-35세)
+  ADULT         # 성인 (36-64세)
+  SENIOR        # 시니어 (65세+)
+}
+
+enum Language {
+  KOREAN
+  ENGLISH
+  MIXED
+}
+
+type SessionLocation {
+  building: String! # 대웅전, 법당, 선방 등
+  floor: String
+  room: String
+  capacity: Int
+  equipment: [String!] # 방송 시설, 프로젝터 등
+}
+
+enum AccessibilityFeature {
+  WHEELCHAIR_ACCESSIBLE  # 휠체어 접근 가능
+  PARKING_AVAILABLE     # 주차장 이용 가능
+  PUBLIC_TRANSPORT     # 대중교통 접근 용이
+  ELEVATOR            # 엘리베이터
+  RESTROOM           # 화장실
+  NURSING_ROOM       # 수유실
+}
+
+enum SessionStatus {
+  SCHEDULED   # 예정
+  ONGOING     # 진행 중
+  COMPLETED   # 완료
+  CANCELLED   # 취소
+  POSTPONED   # 연기
+  FULL        # 마감
+}
+
+type OfferingInfo {
+  suggestedAmount: Int # 권장 보시금 (원)
+  description: String # 보시금 사용처 설명
+  acceptsCard: Boolean @default(value: "false")
+  acceptsAccount: Boolean @default(value: "true")
+  accountInfo: String # 계좌 정보
+}
+
+# ==========================================
+# 📝 리뷰 시스템 (한국어 특화)
+# ==========================================
+type Review @model 
+  @auth(rules: [
+    { allow: public, operations: [read] }
+    { allow: owner, operations: [create, update, delete] }
+    { allow: groups, groups: ["운영자"], operations: [update, delete] }
+  ]) {
+  id: ID!
+  dharmaSessionId: ID! @index(name: "byDharmaSession")
+  dharmaSession: DharmaSession @belongsTo
+  userId: ID! @index(name: "byUser") 
+  
+  # 평가
+  rating: Int! # 1-5점
+  title: String!
+  content: String!
+  
+  # 세부 평가 (한국 불교 특화)
+  contentQuality: Int      # 법문/내용의 질
+  teachingClarity: Int     # 설법의 명확성  
+  spiritualInspiration: Int # 영적 감화
+  practiceGuidance: Int    # 수행 지도
+  atmosphere: Int          # 분위기
+  accessibility: Int       # 접근성/편의성
+  
+  # 추천 대상
+  recommendedFor: [AgeGroup!]
+  difficultyLevel: DifficultyLevel!
+  
+  # 미디어
+  photos: [String!] @url
+  
+  # 검증
+  isVerified: Boolean @default(value: "false")
+  attendanceVerified: Boolean @default(value: "false")
+  
+  # 상호작용
+  comments: [Comment] @hasMany
+  likes: [ReviewLike] @hasMany
+  helpfulCount: Int @default(value: "0")
+  
+  # 상태
+  isPublished: Boolean! @default(value: "true")
+  language: Language! @default(value: "KOREAN")
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum DifficultyLevel {
+  BEGINNER    # 초심자
+  INTERMEDIATE # 중급자
+  ADVANCED    # 숙련자
+  EXPERT      # 전문가
+}
+
+# ==========================================
+# 💬 댓글 시스템
+# ==========================================
+type Comment @model 
+  @auth(rules: [
+    { allow: public, operations: [read] }
+    { allow: owner, operations: [create, update, delete] }
+    { allow: groups, groups: ["운영자"], operations: [delete] }
+  ]) {
+  id: ID!
+  reviewId: ID! @index(name: "byReview")
+  review: Review @belongsTo
+  userId: ID! @index(name: "byUser")
+  
+  content: String!
+  parentCommentId: ID
+  parentComment: Comment @belongsTo
+  replies: [Comment] @hasMany
+  
+  isEdited: Boolean @default(value: "false")
+  isDeleted: Boolean @default(value: "false")
+  
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+# ==========================================
+# 👍 좋아요 시스템
+# ==========================================
+type ReviewLike @model 
+  @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  reviewId: ID! @index(name: "byReview")
+  review: Review @belongsTo
+  userId: ID! @index(name: "byUser")
+  
+  createdAt: AWSDateTime!
+}
+
+# ==========================================
+# 🔔 알림 시스템 (한국어)
+# ==========================================
+type Notification @model
+  @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  userId: String! @index(name: "byUser")
+  type: NotificationType!
+  title: String!
+  message: String!
+  data: String # JSON 문자열
+  isRead: Boolean! @default(value: "false")
+  createdAt: AWSDateTime!
+}
+
+enum NotificationType {
+  NEW_REVIEW         # 새 리뷰 등록
+  COMMENT_REPLY      # 댓글 답글
+  REVIEW_LIKED       # 리뷰 좋아요
+  DHARMA_REMINDER    # 법회 알림
+  DHARMA_CANCELLED   # 법회 취소
+  DHARMA_UPDATED     # 법회 변경
+  TEMPLE_NEWS        # 사찰 소식
+  SYSTEM_NOTICE      # 시스템 공지
+}
+
+# ==========================================
+# 📊 한국 사용자 통계 (개인정보 보호)
+# ==========================================
+type UserStats @model
+  @auth(rules: [{ allow: owner }]) {
+  id: ID! 
+  userId: String! @index(name: "byUser")
+  
+  # 활동 통계
+  reviewCount: Int @default(value: "0")
+  sessionAttendance: Int @default(value: "0")
+  totalPracticeHours: Int @default(value: "0")
+  
+  # 지역별 통계 (개인정보 제거)
+  preferredRegion: String # 시도 단위만
+  practiceLevel: DifficultyLevel @default(value: "BEGINNER")
+  
+  # 관심 분야
+  interests: [KoreanDharmaCategory!]
+  
+  updatedAt: AWSDateTime!
+}
+
+# ==========================================
+# 📈 플랫폼 통계 (비용 최적화)
+# ==========================================
+type PlatformStats @model
+  @auth(rules: [
+    { allow: groups, groups: ["운영자"], operations: [read] }
+  ]) {
+  id: ID!
+  date: AWSDate! @index(name: "byDate")
+  
+  # 일별 통계
+  dailyActiveUsers: Int
+  newRegistrations: Int
+  sessionCreated: Int
+  reviewsWritten: Int
+  
+  # 지역별 통계
+  regionStats: String # JSON 문자열로 저장 (DynamoDB 비용 절약)
+  
+  createdAt: AWSDateTime!
+}

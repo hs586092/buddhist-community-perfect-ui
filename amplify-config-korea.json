@@ -1,0 +1,31 @@
+{
+  "projectName": "BuddhistCommunityKR",
+  "envName": "prod",
+  "defaultEditor": "code",
+  "appType": "javascript",
+  "framework": "react",
+  "srcDir": "src",
+  "distDir": "dist",
+  "buildCommand": "npm run build:korea",
+  "startCommand": "npm run start",
+  "region": "ap-northeast-2",
+  "providers": ["awscloudformation"],
+  "categories": {
+    "auth": {
+      "resourceName": "buddhistcommunityauth",
+      "serviceType": "cognito"
+    },
+    "api": {
+      "resourceName": "buddhistcommunityapi",
+      "serviceType": "appsync"
+    },
+    "storage": {
+      "resourceName": "buddhistcommunitystorage",
+      "serviceType": "s3"
+    },
+    "hosting": {
+      "resourceName": "hostingS3AndCloudFront",
+      "serviceType": "cloudfront"
+    }
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "한국 전용 불교 커뮤니티 CDN - 비용 최적화",
+  "Parameters": {
+    "env": {
+      "Type": "String"
+    },
+    "bucketName": {
+      "Type": "String"
+    }
+  },
+  "Resources": {
+    "S3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": {
+          "Fn::Sub": "${bucketName}-${env}"
+        },
+        "WebsiteConfiguration": {
+          "IndexDocument": "index.html",
+          "ErrorDocument": "index.html"
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": false,
+          "BlockPublicPolicy": false,
+          "IgnorePublicAcls": false,
+          "RestrictPublicBuckets": false
+        },
+        "LifecycleConfiguration": {
+          "Rules": [{
+            "Id": "CostOptimization",
+            "Status": "Enabled",
+            "Transitions": [{
+              "Days": 30,
+              "StorageClass": "STANDARD_IA"
+            }, {
+              "Days": 90,
+              "StorageClass": "GLACIER"
+            }]
+          }]
+        },
+        "IntelligentTieringConfigurations": [{
+          "Id": "EntireBucket",
+          "Status": "Enabled"
+        }]
+      }
+    },
+    "CloudFrontDistribution": {
+      "Type": "AWS::CloudFront::Distribution",
+      "Properties": {
+        "DistributionConfig": {
+          "Enabled": true,
+          "Comment": "한국 불교 커뮤니티 CDN - 서울 최적화",
+          "PriceClass": "PriceClass_200",
+          "HttpVersion": "http2",
+          "IPV6Enabled": true,
+          "DefaultRootObject": "index.html",
+          "Aliases": [],
+          "Origins": [{
+            "Id": "S3Origin",
+            "DomainName": {
+              "Fn::GetAtt": ["S3Bucket", "RegionalDomainName"]
+            },
+            "S3OriginConfig": {
+              "OriginAccessIdentity": ""
+            }
+          }],
+          "DefaultCacheBehavior": {
+            "TargetOriginId": "S3Origin",
+            "ViewerProtocolPolicy": "redirect-to-https",
+            "Compress": true,
+            "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+            "OriginRequestPolicyId": "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf"
+          },
+          "CacheBehaviors": [{
+            "PathPattern": "static/js/*",
+            "TargetOriginId": "S3Origin",
+            "ViewerProtocolPolicy": "redirect-to-https",
+            "Compress": true,
+            "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+            "TTL": 31536000
+          }, {
+            "PathPattern": "static/css/*",
+            "TargetOriginId": "S3Origin", 
+            "ViewerProtocolPolicy": "redirect-to-https",
+            "Compress": true,
+            "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+            "TTL": 31536000
+          }, {
+            "PathPattern": "images/*",
+            "TargetOriginId": "S3Origin",
+            "ViewerProtocolPolicy": "redirect-to-https",
+            "Compress": true,
+            "CachePolicyId": "4135ea2d-6df8-44a3-9df3-4b5a84be39ad",
+            "TTL": 86400
+          }],
+          "CustomErrorResponses": [{
+            "ErrorCode": 404,
+            "ResponseCode": 200,
+            "ResponsePagePath": "/index.html",
+            "ErrorCachingMinTTL": 300
+          }, {
+            "ErrorCode": 403,
+            "ResponseCode": 200,
+            "ResponsePagePath": "/index.html",
+            "ErrorCachingMinTTL": 300
+          }],
+          "ViewerCertificate": {
+            "CloudFrontDefaultCertificate": true
+          }
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "S3BucketName": {
+      "Value": {
+        "Ref": "S3Bucket"
+      }
+    },
+    "CloudFrontDistributionId": {
+      "Value": {
+        "Ref": "CloudFrontDistribution"
+      }
+    },
+    "CloudFrontDomainName": {
+      "Value": {
+        "Fn::GetAtt": ["CloudFrontDistribution", "DomainName"]
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "version": "1",
+  "cognitoConfig": {
+    "identityPoolName": "BuddhistCommunityKR_identitypool",
+    "allowUnauthenticatedIdentities": false,
+    "resourceNameTruncated": "buddhkr",
+    "userPoolName": "BuddhistCommunityKR_userpool",
+    "autoVerifiedAttributes": ["email"],
+    "mfaConfiguration": "OPTIONAL",
+    "mfaTypes": ["SMS Text Message"],
+    "smsAuthenticationMessage": "불교 커뮤니티 인증번호: {####}",
+    "smsVerificationMessage": "불교 커뮤니티 인증번호: {####}",
+    "emailVerificationSubject": "🏛️ 불교 커뮤니티 이메일 인증",
+    "emailVerificationMessage": "안녕하세요! 불교 커뮤니티입니다.\n\n이메일 인증을 위해 다음 코드를 입력해주세요: {####}\n\n감사합니다. 🙏",
+    "defaultPasswordPolicy": false,
+    "passwordPolicyMinLength": 8,
+    "passwordPolicyCharacters": [
+      "requireUppercase",
+      "requireLowercase", 
+      "requireNumbers"
+    ],
+    "requiredAttributes": ["email", "name"],
+    "aliasAttributes": [],
+    "userpoolClientGenerateSecret": false,
+    "userpoolClientRefreshTokenValidity": 30,
+    "userpoolClientWriteAttributes": [
+      "email",
+      "name",
+      "phone_number",
+      "custom:temple",
+      "custom:dharma_name",
+      "custom:practice_years"
+    ],
+    "userpoolClientReadAttributes": [
+      "email",
+      "name", 
+      "phone_number",
+      "custom:temple",
+      "custom:dharma_name",
+      "custom:practice_years"
+    ],
+    "userpoolClientLambdaRole": "buddhkr_userpoolclient_lambda_role",
+    "userpoolClientSetAttributes": false,
+    "sharedId": "buddhkr",
+    "resourceName": "buddhistcommunityauth",
+    "authSelections": "userPoolOnly",
+    "useDefault": "manual",
+    "userPoolGroups": true,
+    "userPoolGroupList": ["운영자", "법사", "신도"],
+    "adminQueries": true,
+    "triggers": {
+      "preSignUp": {
+        "functionName": "koreanUserValidation"
+      },
+      "postConfirmation": {
+        "functionName": "welcomeMessage"
+      }
+    },
+    "hostedUI": true,
+    "hostedUIDomainName": "buddhist-community-kr",
+    "authProvidersUserPool": [],
+    "hostedUIProviderMeta": "[]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://localhost:3000/\"],\"LogoutURLs\":[\"https://localhost:3000/\"]}",
+    "usernameCaseSensitive": false,
+    "useEnabledMfas": true
+  }
+}
