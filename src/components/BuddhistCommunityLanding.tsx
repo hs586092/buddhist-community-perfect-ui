@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const BuddhistCommunityLanding: React.FC = () => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     // 간단한 인터랙션 추가
     const cards = document.querySelectorAll('.card-hover');
@@ -143,7 +146,10 @@ const BuddhistCommunityLanding: React.FC = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">법회 리뷰</h3>
               <p className="text-gray-600 mb-4">전국 사찰의 법회와 수행 프로그램에 대한 진솔한 후기를 작성하고 읽어보세요.</p>
-              <button className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors">
+              <button 
+                className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
+                onClick={() => navigate('/temple-reviews')}
+              >
                 리뷰 둘러보기 →
               </button>
             </div>
