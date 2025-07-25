@@ -8,18 +8,15 @@ frontend:
         - echo "NPM version:"
         - npm --version
         - echo "Installing dependencies..."
-        - npm ci
+        - npm install
     build:
       commands:
         - echo "Starting build..."
-        - echo "Environment variables:"
-        - env | grep -E "(NODE_|npm_|DEPLOY_)"
         - npm run build
         - echo "Build completed, checking dist folder..."
-        - ls -la
         - ls -la dist/
-        - echo "Checking if index.html exists:"
-        - cat dist/index.html | head -20
+        - echo "Index.html content:"
+        - head -10 dist/index.html
   artifacts:
     baseDirectory: dist
     files:
