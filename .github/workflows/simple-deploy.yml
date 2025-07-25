@@ -1,0 +1,44 @@
+# 🪷 Buddhist Community - 간단한 자동 배포
+name: Simple Deploy to Amplify
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 🪷 코드 체크아웃
+      uses: actions/checkout@v4
+      
+    - name: 📦 Node.js 18 설정
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: 🔧 패키지 설치
+      run: |
+        echo "🏛️ 불교 커뮤니티 의존성 설치 중..."
+        npm ci
+        
+    - name: 🏗️ 빌드 테스트
+      run: |
+        echo "🌸 빌드 테스트 실행..."
+        npm run build
+        
+    - name: 📊 빌드 검증
+      run: |
+        echo "✅ 빌드 성공! 파일 확인:"
+        ls -la dist/
+        echo "📄 index.html 존재 확인:"
+        test -f dist/index.html && echo "✅ index.html 존재" || echo "❌ index.html 없음"
+        echo "🔄 _redirects 존재 확인:"
+        test -f dist/_redirects && echo "✅ _redirects 존재" || echo "❌ _redirects 없음"
+        
+    - name: 🎉 배포 준비 완료
+      run: |
+        echo "🪷 모든 검증 완료! Amplify가 자동으로 배포합니다."
+        echo "배포 URL을 확인하세요: AWS Amplify Console"

@@ -1,0 +1,82 @@
+# 🪷 Buddhist Community - 자동 배포 워크플로우
+name: Deploy Buddhist Community to AWS Amplify
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 🪷 체크아웃
+      uses: actions/checkout@v4
+      
+    - name: 📦 Node.js 설정
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: 🔧 의존성 설치
+      run: |
+        echo "🏛️ 불교 커뮤니티 빌드 시작..."
+        npm ci
+        
+    - name: 🧪 테스트 실행
+      run: |
+        echo "테스트 스킵 (현재 테스트 없음)"
+        # npm test -- --coverage --watchAll=false
+        
+    - name: 🏗️ 프로덕션 빌드
+      run: |
+        echo "🌸 프로덕션 빌드 생성 중..."
+        npm run build
+        
+    - name: 📊 빌드 결과 확인
+      run: |
+        echo "빌드 완료! dist 폴더 내용:"
+        ls -la dist/
+        echo "index.html 크기:"
+        wc -c dist/index.html
+        echo "_redirects 파일 확인:"
+        cat dist/_redirects
+        
+    - name: 🚀 AWS Amplify 배포
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2  # 서울 리전
+        
+    - name: 📤 Amplify 앱 업데이트
+      run: |
+        echo "🪷 Amplify 배포 중..."
+        aws amplify start-job \
+          --app-id ${{ secrets.AMPLIFY_APP_ID }} \
+          --branch-name main \
+          --job-type RELEASE
+          
+    - name: ✅ 배포 완료 알림
+      run: |
+        echo "🎉 Buddhist Community 배포 완료!"
+        echo "URL: https://${{ secrets.AMPLIFY_APP_ID }}.amplifyapp.com"
+        
+  lighthouse:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: 🔍 Lighthouse 성능 테스트
+      uses: treosh/lighthouse-ci-action@v10
+      with:
+        urls: |
+          https://${{ secrets.AMPLIFY_APP_ID }}.amplifyapp.com
+          https://${{ secrets.AMPLIFY_APP_ID }}.amplifyapp.com/temple-reviews
+          https://${{ secrets.AMPLIFY_APP_ID }}.amplifyapp.com/community
+        uploadArtifacts: true
+        temporaryPublicStorage: true
